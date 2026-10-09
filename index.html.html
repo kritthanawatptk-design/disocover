@@ -1,0 +1,2172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สื่อการเรียนรู้ห้องปฏิบัติการพยาธิวิทยาคลินิก - ศูนย์วิทยาศาสตร์การแพทย์ที่ 4 สระบุรี</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for Data Visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts Inter & Sarabun -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .tab-btn.active {
+            background-color: #0284c7;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .pulse-subtle {
+            animation: pulse-slow 3s infinite;
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased flex flex-col min-h-screen">
+
+    <!-- Top Header Bar -->
+    <header class="bg-gradient-to-r from-sky-900 via-sky-800 to-teal-800 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <div class="flex items-center justify-between flex-wrap gap-3">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center p-1 shadow border-2 border-sky-300">
+                        <i class="fa-solid fa-microscope text-2xl text-sky-700"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg sm:text-xl leading-tight">สื่อการเรียนรู้ห้องปฏิบัติการพยาธิวิทยาคลินิก</h1>
+                        <p class="text-xs text-sky-200">ศูนย์วิทยาศาสตร์การแพทย์ที่ 4 สระบุรี (RMSC 4 Saraburi) - เรียนรู้ผ่านภาพและอินโฟกราฟิก</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 bg-sky-950/70 px-3 py-1.5 rounded-lg border border-sky-500/40 text-xs">
+                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>ระบบสื่อการสอนผู้ดูงาน & นักศึกษา</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full flex flex-col lg:flex-row gap-6">
+
+        <!-- Sidebar Navigation -->
+        <aside class="w-full lg:w-72 flex-shrink-0">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sticky top-20">
+                <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 px-2">หัวข้อเรียนรู้หลัก</h2>
+                <nav class="space-y-1.5 custom-scrollbar max-h-[75vh] overflow-y-auto pr-1" id="tabContainer">
+                    <button onclick="switchTab('about')" id="btn-about" class="tab-btn active w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center space-x-3 text-slate-700 hover:bg-slate-100">
+                        <i class="fa-solid fa-building-hospital text-sky-600 w-5"></i>
+                        <span>1. แนะนำศูนย์วิทย์ฯ 4 สระบุรี</span>
+                    </button>
+                    <button onclick="switchTab('biosafety')" id="btn-biosafety" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center space-x-3 text-slate-700 hover:bg-slate-100">
+                        <i class="fa-solid fa-shield-virus text-amber-500 w-5"></i>
+                        <span>2. Biosafety, Biosecurity & PPE</span>
+                    </button>
+                    <button onclick="switchTab('iso')" id="btn-iso" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center space-x-3 text-slate-700 hover:bg-slate-100">
+                        <i class="fa-solid fa-certificate text-emerald-600 w-5"></i>
+                        <span>3. มาตรฐาน LAB (ISO/LA)</span>
+                    </button>
+                    <button onclick="switchTab('workflow')" id="btn-workflow" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center space-x-3 text-slate-700 hover:bg-slate-100">
+                        <i class="fa-solid fa-vial-virus text-indigo-600 w-5"></i>
+                        <span>3.1 กระบวนการตรวจ 3 ระยะ</span>
+                    </button>
+                    <button onclick="switchTab('pcr-hpv')" id="btn-pcr-hpv" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center space-x-3 text-slate-700 hover:bg-slate-100">
+                        <i class="fa-solid fa-dna text-purple-600 w-5"></i>
+                        <span>4. หลักการ PCR & HPV DNA</span>
+                    </button>
+                    <button onclick="switchTab('pharmacogenomics')" id="btn-pharmacogenomics" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center space-x-3 text-slate-700 hover:bg-slate-100">
+                        <i class="fa-solid fa-pills text-rose-500 w-5"></i>
+                        <span>5. เภสัชพันธุศาสตร์ (แพ้ยา)</span>
+                    </button>
+                    <button onclick="switchTab('nat2')" id="btn-nat2" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center space-x-3 text-slate-700 hover:bg-slate-100">
+                        <i class="fa-solid fa-vial-circle-check text-indigo-600 w-5"></i>
+                        <span>6. NAT2 & ย่อยยา Isoniazid</span>
+                    </button>
+                    <button onclick="switchTab('pt')" id="btn-pt" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center space-x-3 text-slate-700 hover:bg-slate-100">
+                        <i class="fa-solid fa-chart-line text-teal-600 w-5"></i>
+                        <span>7. หลักการ PT (Proficiency)</span>
+                    </button>
+                    <div class="pt-3 border-t border-slate-200 mt-2">
+                        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 px-2">การฝึกปฏิบัติ & ประเมินผล</h2>
+                        <button onclick="switchTab('simulators')" id="btn-simulators" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center space-x-3 text-slate-700 hover:bg-slate-100">
+                            <i class="fa-solid fa-laptop-code text-blue-600 w-5"></i>
+                            <span>เครื่องมือจำลอง (Simulators)</span>
+                        </button>
+                        <button onclick="switchTab('quiz')" id="btn-quiz" class="tab-btn w-full text-left px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all flex items-center space-x-3 text-slate-700 hover:bg-slate-100">
+                            <i class="fa-solid fa-clipboard-question text-orange-500 w-5"></i>
+                            <span>แบบทดสอบความรู้ (Quiz)</span>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 w-full min-w-0">
+
+            <!-- TAB 1: ABOUT RMSC 4 SARABURI -->
+            <section id="tab-about" class="tab-content space-y-6">
+                <!-- Banner Card -->
+                <div class="bg-gradient-to-r from-sky-900 via-sky-800 to-indigo-900 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
+                        <i class="fa-solid fa-hospital"></i>
+                    </div>
+                    <div class="relative z-10 max-w-2xl">
+                        <span class="bg-sky-500/30 text-sky-200 text-xs font-semibold px-3 py-1 rounded-full border border-sky-400/30">ศูนย์วิทยาศาสตร์การแพทย์ที่ 4 สระบุรี</span>
+                        <h2 class="text-2xl font-bold mt-2 sm:text-3xl">กลุ่มชันสูตรสาธารณสุข - ห้องปฏิบัติการพยาธิวิทยาคลินิก</h2>
+                        <p class="text-sky-100 text-sm mt-2 leading-relaxed">
+                            ทำหน้าที่เป็นห้องปฏิบัติการอ้างอิงและสนับสนุนงานตรวจวิเคราะห์ด้านชันสูตรโรค การพัฒนาคุณภาพห้องปฏิบัติการเครือข่าย ตลอดจนงานวิจัยด้านเภสัชพันธุศาสตร์ และการเฝ้าระวังโรคในพื้นที่เขตสุขภาพที่ 4
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Visual Area Map & Scope Infographic -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-base mb-3 flex items-center space-x-2">
+                        <i class="fa-solid fa-map-location-dot text-sky-600"></i>
+                        <span>แผนผังพื้นที่รับผิดชอบ เขตสุขภาพที่ 4 (8 จังหวัด)</span>
+                    </h3>
+                    
+                    <!-- Interactive Visual SVG Map Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-4">
+                        <div class="p-3 bg-sky-50 border border-sky-200 rounded-xl text-center">
+                            <i class="fa-solid fa-location-dot text-sky-600 text-xl mb-1"></i>
+                            <div class="font-bold text-sm text-slate-800">สระบุรี</div>
+                            <span class="text-[11px] bg-sky-200 text-sky-800 px-2 py-0.5 rounded-full font-semibold">ที่ตั้งศูนย์ฯ</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                            <i class="fa-solid fa-city text-slate-500 text-xl mb-1"></i>
+                            <div class="font-bold text-sm text-slate-800">นนทบุรี</div>
+                            <span class="text-[11px] text-slate-500">เขตปริมณฑล</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                            <i class="fa-solid fa-industry text-slate-500 text-xl mb-1"></i>
+                            <div class="font-bold text-sm text-slate-800">ปทุมธานี</div>
+                            <span class="text-[11px] text-slate-500">เขตปริมณฑล</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                            <i class="fa-solid fa-landmark text-slate-500 text-xl mb-1"></i>
+                            <div class="font-bold text-sm text-slate-800">พระนครศรีอยุธยา</div>
+                            <span class="text-[11px] text-slate-500">ภาคกลาง</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                            <i class="fa-solid fa-mountain-sun text-slate-500 text-xl mb-1"></i>
+                            <div class="font-bold text-sm text-slate-800">ลพบุรี</div>
+                            <span class="text-[11px] text-slate-500">ภาคกลาง</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                            <i class="fa-solid fa-wheat-awn text-slate-500 text-xl mb-1"></i>
+                            <div class="font-bold text-sm text-slate-800">อ่างทอง</div>
+                            <span class="text-[11px] text-slate-500">ภาคกลาง</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                            <i class="fa-solid fa-tree text-slate-500 text-xl mb-1"></i>
+                            <div class="font-bold text-sm text-slate-800">นครนายก</div>
+                            <span class="text-[11px] text-slate-500">ภาคกลาง</span>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
+                            <i class="fa-solid fa-fish text-slate-500 text-xl mb-1"></i>
+                            <div class="font-bold text-sm text-slate-800">สิงห์บุรี</div>
+                            <span class="text-[11px] text-slate-500">ภาคกลาง</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid from Annual Report 2568 -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-700 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500">ประชากรในพื้นที่</p>
+                            <h3 class="text-lg font-bold text-slate-800">5.47 ล้านคน</h3>
+                            <p class="text-[11px] text-slate-400">8 จังหวัดภาคกลาง</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                            <i class="fa-solid fa-vial-virus"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500">ตรวจ NAT2 (TB Drug)</p>
+                            <h3 class="text-lg font-bold text-slate-800">866 ราย</h3>
+                            <p class="text-[11px] text-slate-400">เครือข่าย 45 โรงพยาบาล</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                            <i class="fa-solid fa-ribbon"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500">HPV Self-Sampling</p>
+                            <h3 class="text-lg font-bold text-slate-800">3,536 ราย</h3>
+                            <p class="text-[11px] text-slate-400">พบเชื้อเสี่ยงสูง 16.43%</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center text-xl flex-shrink-0">
+                            <i class="fa-solid fa-capsules"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500">ตรวจแพ้ยา HLA-B*5801</p>
+                            <h3 class="text-lg font-bold text-slate-800">973 ราย</h3>
+                            <p class="text-[11px] text-slate-400">พบยีนเสี่ยงสูง 11.4%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scope & Duties Diagram -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                        <i class="fa-solid fa-diagram-project text-sky-600"></i>
+                        <span>กระบวนการทำงานหลักในห้องปฏิบัติการพยาธิวิทยาคลินิก (Lab Workflow)</span>
+                    </h3>
+
+                    <!-- Visual Workflow SVG Steps -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                        <div class="bg-sky-50 border border-sky-200 p-4 rounded-xl relative">
+                            <span class="w-6 h-6 bg-sky-600 text-white font-bold rounded-full flex items-center justify-center text-xs mb-2">1</span>
+                            <h4 class="font-bold text-sky-900 text-sm mb-1">ระยะก่อนการวิเคราะห์ (Pre-Analytical)</h4>
+                            <ul class="text-slate-600 space-y-1 pl-2 border-l-2 border-sky-300">
+                                <li>• รับและตรวจสอบสิ่งส่งตรวจ (Specimen Reception)</li>
+                                <li>• ติดบาร์โค้ด และตรวจสอบสิ่งส่งตรวจไม่ปฏิเสธ (Rejection Criteria)</li>
+                                <li>• เตรียมตัวอย่าง (Centrifugation / Extraction)</li>
+                            </ul>
+                        </div>
+                        <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl relative">
+                            <span class="w-6 h-6 bg-indigo-600 text-white font-bold rounded-full flex items-center justify-center text-xs mb-2">2</span>
+                            <h4 class="font-bold text-indigo-900 text-sm mb-1">ระยะทำการวิเคราะห์ (Analytical)</h4>
+                            <ul class="text-slate-600 space-y-1 pl-2 border-l-2 border-indigo-300">
+                                <li>• ตรวจสอบ IQC ก่อนเริ่มงานวิเคราะห์ประจำวัน</li>
+                                <li>• ทำการวิเคราะห์ด้วยเทคโนโลยีสูง (Real-time PCR, Sequencer)</li>
+                                <li>• บันทึกข้อมูลและควบคุมความแม่นยำ</li>
+                            </ul>
+                        </div>
+                        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl relative">
+                            <span class="w-6 h-6 bg-emerald-600 text-white font-bold rounded-full flex items-center justify-center text-xs mb-2">3</span>
+                            <h4 class="font-bold text-emerald-900 text-sm mb-1">ระยะหลังการวิเคราะห์ (Post-Analytical)</h4>
+                            <ul class="text-slate-600 space-y-1 pl-2 border-l-2 border-emerald-300">
+                                <li>• ทบทวนและอนุมัติผล (Result Verification & Approval)</li>
+                                <li>• รายงานผลผ่านระบบ LIS / E-Report แก่ รพ. เครือข่าย</li>
+                                <li>• ให้คำปรึกษาการปรับยารักษาแก่แพทย์</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: BIOSAFETY & BIOSECURITY -->
+            <section id="tab-biosafety" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                        <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-biohazard"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">Biosafety, Biosecurity และการออกแบบความปลอดภัยในห้องปฏิบัติการ</h2>
+                            <p class="text-xs text-slate-500">ลักษณะห้องปฏิบัติการตามระดับความเสี่ยง การควบคุมสภาวะแวดล้อม และอุปกรณ์ PPE</p>
+                        </div>
+                    </div>
+
+                    <!-- Comparison Infographic Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-amber-50/80 p-5 rounded-2xl border border-amber-200 relative overflow-hidden">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-bold text-amber-900 text-base flex items-center space-x-2">
+                                    <i class="fa-solid fa-user-shield text-amber-600 text-lg"></i>
+                                    <span>Biosafety (ความปลอดภัยทางชีวภาพ)</span>
+                                </h3>
+                                <span class="bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full">ป้องกันอุบัติเหตุ</span>
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed mb-4">
+                                หลักการ มาตรการ และอุปกรณ์ เพื่อ <strong>"ปกป้องคนและสิ่งแวดล้อม"</strong> ไม่ให้สัมผัสหรือได้รับอันตรายจากเชื้อโรคโดยไม่ได้ตั้งใจ (Accidental Exposure / Release)
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-amber-100 space-y-1.5 text-xs">
+                                <div class="font-bold text-amber-800">🔑 องค์ประกอบสำคัญ:</div>
+                                <div class="text-slate-600">1. การปฏิบัติงานที่ถูกต้อง (Good Lab Practice)</div>
+                                <div class="text-slate-600">2. อุปกรณ์ป้องกัน (PPE & BSC Class II)</div>
+                                <div class="text-slate-600">3. โครงสร้างห้องปฏิบัติการแรงดันลบ (Containment)</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-100 p-5 rounded-2xl border border-slate-300 relative overflow-hidden">
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-bold text-slate-800 text-base flex items-center space-x-2">
+                                    <i class="fa-solid fa-lock text-slate-700 text-lg"></i>
+                                    <span>Biosecurity (การรักษาความปลอดภัยทางชีวภาพ)</span>
+                                </h3>
+                                <span class="bg-slate-300 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-full">ป้องกันการโจรกรรม</span>
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed mb-4">
+                                มาตรการจำกัดการเข้าถึง เพื่อ <strong>"ปกป้องเชื้อโรค"</strong> ไม่ให้สูญหาย ถูกขโมย หรือถูกนำไปใช้ก่ออันตรายโดยเจตนา (Intentional Misuse / Theft)
+                            </p>
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-1.5 text-xs">
+                                <div class="font-bold text-slate-800">🔑 องค์ประกอบสำคัญ:</div>
+                                <div class="text-slate-600">1. การควบคุมการเข้าออก (Access Control / Fingerprint)</div>
+                                <div class="text-slate-600">2. บัญชีคุมคลังเชื้อโรค (Inventory Control)</div>
+                                <div class="text-slate-600">3. การตรวจสอบประวัติบุคลากร (Personnel Reliability)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW SECTION: ROOM SAFETY DESIGN & FACILITY REQUIREMENTS -->
+                    <div class="bg-slate-900 text-white p-5 rounded-2xl space-y-4 shadow-md">
+                        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-800 pb-3">
+                            <h3 class="font-bold text-sm sm:text-base text-amber-400 flex items-center space-x-2">
+                                <i class="fa-solid fa-door-closed text-lg"></i>
+                                <span>การออกแบบความปลอดภัยของโครงสร้างห้องปฏิบัติการ (Facility Safety Design)</span>
+                            </h3>
+                            <span class="text-xs bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1 rounded-full">มาตรฐานกรมวิทยาศาสตร์การแพทย์</span>
+                        </div>
+
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            การออกแบบห้องปฏิบัติการพยาธิวิทยาคลินิก ต้องคำนึงถึงทิศทางการไหลของอากาศ (Directional Airflow) แรงดันอากาศ (Differential Pressure) อัตราการหมุนเวียนอากาศ (Air Changes per Hour - ACH) และวัสดุพื้นผิว เพื่อป้องกันการแพร่กระจายเชื้อและปนเปื้อนข้าม
+                        </p>
+
+                        <!-- SVG Diagram: Negative Pressure BSL-2+/BSL-3 Facility Layout -->
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                            <h4 class="text-xs font-bold text-sky-400 mb-2 flex items-center space-x-2">
+                                <i class="fa-solid fa-diagram-project"></i>
+                                <span>แผนผังจำลองโครงสร้างห้องความดันลบ (Negative Pressure Facility Concept Diagram)</span>
+                            </h4>
+                            <div class="overflow-x-auto pb-2">
+                                <svg viewBox="0 0 750 220" class="w-full min-w-[650px] h-auto">
+                                    <!-- Background Outer Wall -->
+                                    <rect x="10" y="10" width="730" height="200" rx="12" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+                                    
+                                    <!-- Clean Corridor / Outside Zone (+0 Pa) -->
+                                    <g transform="translate(20, 25)">
+                                        <rect x="0" y="0" width="120" height="170" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1.5"/>
+                                        <text x="60" y="25" text-anchor="middle" font-size="11" font-weight="bold" fill="#94a3b8">ทางเดินภายนอก</text>
+                                        <text x="60" y="42" text-anchor="middle" font-size="10" fill="#38bdf8" font-weight="bold">แรงดัน 0 Pa</text>
+                                        <text x="60" y="100" text-anchor="middle" font-size="9" fill="#cbd5e1">• โซนสะอาด</text>
+                                        <text x="60" y="115" text-anchor="middle" font-size="9" fill="#cbd5e1">• จุดถอด/เปลี่ยนรองเท้า</text>
+                                    </g>
+
+                                    <!-- Arrow to Airlock -->
+                                    <path d="M 145 110 L 175 110" stroke="#38bdf8" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+
+                                    <!-- Anteroom / Airlock (-12.5 Pa) -->
+                                    <g transform="translate(180, 25)">
+                                        <rect x="0" y="0" width="160" height="170" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+                                        <rect x="0" y="0" width="160" height="26" rx="8" fill="#b45309"/>
+                                        <text x="80" y="18" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">Anteroom (ห้องกั้นปรับแรงดัน)</text>
+                                        <text x="80" y="48" text-anchor="middle" font-size="10" fill="#fde047" font-weight="bold">แรงดันลบ -12.5 Pa</text>
+                                        
+                                        <text x="15" y="75" font-size="9" fill="#e2e8f0">• มีประตู Interlock (เปิดทีละบาน)</text>
+                                        <text x="15" y="92" font-size="9" fill="#e2e8f0">• จุดใส่ชุด PPE / ล้างมือ</text>
+                                        <text x="15" y="109" font-size="9" fill="#e2e8f0">• ฝักบัวฉุกเฉิน / อ่างล้างตา</text>
+                                        <text x="15" y="126" font-size="9" fill="#e2e8f0">• มี Pass Box ผ่านของเข้า-ออก</text>
+                                    </g>
+
+                                    <!-- Arrow to Main BSL-2+/3 Room -->
+                                    <path d="M 345 110 L 375 110" stroke="#ef4444" stroke-width="3" fill="none"/>
+
+                                    <!-- Main Containment Room (-25 Pa) -->
+                                    <g transform="translate(380, 25)">
+                                        <rect x="0" y="0" width="340" height="170" rx="8" fill="#1e293b" stroke="#ef4444" stroke-width="2"/>
+                                        <rect x="0" y="0" width="340" height="26" rx="8" fill="#dc2626"/>
+                                        <text x="170" y="18" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">ห้องปฏิบัติการเชื้อเสี่ยงสูง (Main Lab Room)</text>
+                                        <text x="170" y="48" text-anchor="middle" font-size="10" fill="#fca5a5" font-weight="bold">แรงดันลบ -25 ถึง -30 Pa (Directional Airflow)</text>
+
+                                        <!-- BSC Cabinet Icon Box inside -->
+                                        <rect x="20" y="70" width="130" height="80" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+                                        <text x="85" y="90" text-anchor="middle" font-size="9" font-weight="bold" fill="#38bdf8">ตู้ชีวภาพ BSC Class II</text>
+                                        <text x="85" y="105" text-anchor="middle" font-size="8" fill="#94a3b8">ปฏิบัติงานกับตัวอย่างเชื้อ</text>
+                                        <text x="85" y="120" text-anchor="middle" font-size="8" fill="#fde047">Exhaust HEPA 99.97%</text>
+
+                                        <!-- Features list -->
+                                        <text x="165" y="80" font-size="9" fill="#e2e8f0">• อัตราหมุนเวียนอากาศ > 12-15 ACH</text>
+                                        <text x="165" y="97" font-size="9" fill="#e2e8f0">• ผนัง/พื้น Seamless ไร้รอยต่อ</text>
+                                        <text x="165" y="114" font-size="9" fill="#e2e8f0">• ระบบหม้อนึ่งอัดพฤกษ์ Autoclave</text>
+                                        <text x="165" y="131" font-size="9" fill="#e2e8f0">• มี Magnehelic Gauge วัดแรงดัน</text>
+                                        <text x="165" y="148" font-size="9" fill="#e2e8f0">• ระบบกรอง HEPA Exhaust 100%</text>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Technical Specification Cards Matrix -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs pt-2">
+                            <div class="bg-slate-800 border border-slate-700 p-3.5 rounded-xl space-y-1.5">
+                                <div class="font-bold text-sky-400 flex items-center space-x-2">
+                                    <i class="fa-solid fa-wind"></i>
+                                    <span>1. การควบคุมแรงดัน & ทิศทางลม</span>
+                                </div>
+                                <p class="text-slate-300">
+                                    อากาศต้องไหลจากโซนสะอาด (Clean) $\rightarrow$ โซนสกปรก (Dirty) เสมอ โดยห้องปฏิบัติการติดเชื้อจะมีแรงดันอากาศต่ำกว่าภายนอก (Negative Pressure) เพื่อป้องกันเชื้อฟุ้งกระจายออกนอกห้อง
+                                </p>
+                            </div>
+
+                            <div class="bg-slate-800 border border-slate-700 p-3.5 rounded-xl space-y-1.5">
+                                <div class="font-bold text-amber-400 flex items-center space-x-2">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                    <span>2. พื้นผิว & สถาปัตยกรรมห้อง</span>
+                                </div>
+                                <p class="text-slate-300">
+                                    พื้น ผนัง และเพดาน ต้องเป็นวัสดุเรียบ ไร้รอยต่อ (Seamless เช่น Vinyl, Epoxy) ทนทานต่อสารเคมีและน้ำยาฆ่าเชื้อ ลบมุมห้อง (Coved Skirting) ไม่สะสมฝุ่น ล้างทำความสะอาดได้ง่าย
+                                </p>
+                            </div>
+
+                            <div class="bg-slate-800 border border-slate-700 p-3.5 rounded-xl space-y-1.5">
+                                <div class="font-bold text-emerald-400 flex items-center space-x-2">
+                                    <i class="fa-solid fa-shower"></i>
+                                    <span>3. อุปกรณ์ความปลอดภัยฉุกเฉิน</span>
+                                </div>
+                                <p class="text-slate-300">
+                                    ติดตั้งอ่างล้างตาฉุกเฉิน (Emergency Eyewash) และฝักบัวชำระล้างสารเคมี/เชื้อโรค (Emergency Shower) ในตำแหน่งที่เข้าถึงได้ภายใน 10 วินาที พร้อมระบบสวิตช์เปิดประตูฉุกเฉิน
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- PCR Clean Room Zoning Sub-Card -->
+                        <div class="bg-indigo-950 border border-indigo-800 p-4 rounded-xl space-y-2 text-xs">
+                            <div class="font-bold text-indigo-300 flex items-center space-x-2">
+                                <i class="fa-solid fa-vial-circle-check"></i>
+                                <span>การจัดโซนห้องปฏิบัติการอณูชีววิทยา/PCR (Preventing Cross-Contamination)</span>
+                            </div>
+                            <p class="text-indigo-100 leading-relaxed">
+                                งานตรวจ PCR ต้องแยกห้องทำงานอย่างเด็ดขาดแบบ <strong>One-Way Workflow</strong> (ห้ามนำอุปกรณ์ย้อนกลับเด็ดขาด):
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] pt-1">
+                                <div class="bg-indigo-900/80 p-2.5 rounded-lg border border-indigo-700">
+                                    <div class="font-bold text-sky-300">Zone 1: Pre-PCR Area (Clean)</div>
+                                    <div class="text-indigo-200 mt-1">• เตรียม Reagents / Master Mix</div>
+                                    <div class="text-indigo-200">• แรงดันบวก (Positive Pressure)</div>
+                                    <div class="text-indigo-200">• ห้ามนำ DNA/RNA ตัวอย่างเข้า</div>
+                                </div>
+                                <div class="bg-indigo-900/80 p-2.5 rounded-lg border border-indigo-700">
+                                    <div class="font-bold text-amber-300">Zone 2: Extraction Area</div>
+                                    <div class="text-indigo-200 mt-1">• สกัด DNA/RNA จากตัวอย่าง</div>
+                                    <div class="text-indigo-200">• ทำใน BSC Class II</div>
+                                    <div class="text-indigo-200">• แรงดันลบ/เป็นกลาง</div>
+                                </div>
+                                <div class="bg-indigo-900/80 p-2.5 rounded-lg border border-indigo-700">
+                                    <div class="font-bold text-rose-300">Zone 3: Post-PCR Area</div>
+                                    <div class="text-indigo-200 mt-1">• เพิ่มปริมาณ & วิเคราะห์ผล</div>
+                                    <div class="text-indigo-200">• เครื่อง Real-time PCR / Sequencer</div>
+                                    <div class="text-indigo-200">• มีสารขยายพันธุกรรมสูงมาก</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEW SECTION: INTERACTIVE PPE & ROOM SELECTOR BY RISK LEVEL -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                                <i class="fa-solid fa-user-gear text-sky-600"></i>
+                                <span>เจาะลึกข้อกำหนดและคุณลักษณะห้องปฏิบัติการตามระดับ BSL (Interactive BSL Deep-Dive Explorer)</span>
+                            </h3>
+                            <span class="text-[11px] font-semibold text-slate-500">คลิกเลือกระดับ BSL เพื่อดูข้อมูลโดยละเอียด:</span>
+                        </div>
+
+                        <!-- Selector Buttons -->
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+                            <button onclick="checkPpeAndRoom('bsl1')" id="ppebtn-bsl1" class="ppe-btn bg-white border border-slate-300 hover:border-emerald-500 p-2.5 rounded-xl font-bold text-slate-700 text-center transition">
+                                🟢 BSL-1<br><span class="font-normal text-[10px] text-slate-500">เชื้อไม่ก่อโรค (Risk Group 1)</span>
+                            </button>
+                            <button onclick="checkPpeAndRoom('bsl2')" id="ppebtn-bsl2" class="ppe-btn active bg-sky-600 text-white border border-sky-600 p-2.5 rounded-xl font-bold text-center transition">
+                                🔵 BSL-2 (ชันสูตรทั่วไป)<br><span class="font-normal text-[10px] opacity-90">เช่น HBV, HIV, HPV</span>
+                            </button>
+                            <button onclick="checkPpeAndRoom('bsl2plus')" id="ppebtn-bsl2plus" class="ppe-btn bg-white border border-slate-300 hover:border-indigo-500 p-2.5 rounded-xl font-bold text-slate-700 text-center transition">
+                                🟣 BSL-2+ (Enhanced BSL-2)<br><span class="font-normal text-[10px] text-slate-500">สกัด DNA / เชื้อละอองฝอย</span>
+                            </button>
+                            <button onclick="checkPpeAndRoom('bsl3')" id="ppebtn-bsl3" class="ppe-btn bg-white border border-slate-300 hover:border-amber-500 p-2.5 rounded-xl font-bold text-slate-700 text-center transition">
+                                🟠 BSL-3 (ติดเชื้อทางอากาศ)<br><span class="font-normal text-[10px] text-slate-500">วัณโรค TB / COVID-19</span>
+                            </button>
+                            <button onclick="checkPpeAndRoom('bsl4')" id="ppebtn-bsl4" class="ppe-btn bg-white border border-slate-300 hover:border-rose-500 p-2.5 rounded-xl font-bold text-slate-700 text-center transition">
+                                🔴 BSL-4 (อันตรายร้ายแรง)<br><span class="font-normal text-[10px] text-slate-500">Ebola / Marburg virus</span>
+                            </button>
+                        </div>
+
+                        <!-- Dynamic Output Container -->
+                        <div id="ppeRoomOutput" class="bg-white p-5 rounded-xl border border-slate-200 text-xs space-y-4">
+                            <!-- JS Will Render Dynamic Info Here -->
+                        </div>
+                    </div>
+
+                    <!-- COMPREHENSIVE BSL COMPARISON MATRIX TABLE -->
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                                <i class="fa-solid fa-table-list text-indigo-600"></i>
+                                <span>ตารางเปรียบเทียบความแตกต่างระดับ BSL-1 ถึง BSL-4 แบบครอบคลุม (BSL Master Comparison Matrix)</span>
+                            </h3>
+                            <span class="text-[11px] bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full font-bold">มาตรฐาน CDC / WHO / กรมวิทย์ฯ</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse min-w-[700px]">
+                                <thead>
+                                    <tr class="bg-slate-800 text-white font-bold">
+                                        <th class="p-3 rounded-tl-lg">หัวข้อเปรียบเทียบ</th>
+                                        <th class="p-3 bg-emerald-700">BSL-1</th>
+                                        <th class="p-3 bg-sky-700">BSL-2</th>
+                                        <th class="p-3 bg-indigo-700">BSL-2+ (Enhanced)</th>
+                                        <th class="p-3 bg-amber-700">BSL-3</th>
+                                        <th class="p-3 bg-rose-700 rounded-tr-lg">BSL-4</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200 border-b border-slate-200 text-slate-700">
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold bg-slate-100 text-slate-900">ระดับความเสี่ยง (Risk Group)</td>
+                                        <td class="p-3 text-emerald-800 font-semibold">RG 1 (ต่ำมาก)</td>
+                                        <td class="p-3 text-sky-800 font-semibold">RG 2 (ปานกลาง)</td>
+                                        <td class="p-3 text-indigo-800 font-semibold">RG 2 High-Risk / Aerosol</td>
+                                        <td class="p-3 text-amber-800 font-semibold">RG 3 (สูง)</td>
+                                        <td class="p-3 text-rose-800 font-semibold">RG 4 (สูงมาก)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold bg-slate-100 text-slate-900">ชนิดเชื้อก่อโรค (Pathogens)</td>
+                                        <td class="p-3">เชื้อไม่ก่อโรคในคนปกติ (E. coli K12)</td>
+                                        <td class="p-3">ก่อโรคในคน มีทางรักษา/วัคซีน (HBV, HIV, HPV)</td>
+                                        <td class="p-3">สกัด DNA สารพันธุกรรมเชื้อไวรัส (SARS-CoV-2 RNA)</td>
+                                        <td class="p-3">เชื้อแพร่ทางอากาศอันตรายรุนแรง (TB, Anthrax)</td>
+                                        <td class="p-3">เชื้ออันตรายร้ายแรง ไม่มียารักษา (Ebola, Marburg)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold bg-slate-100 text-slate-900">แรงดันอากาศ (Pressure)</td>
+                                        <td class="p-3">แรงดันปกติ Ambient (+0 Pa)</td>
+                                        <td class="p-3">แรงดันปกติ หรือ ลบอ่อนๆ (-5 Pa)</td>
+                                        <td class="p-3 text-indigo-700 font-bold">แรงดันลบ (-10 ถึง -15 Pa)</td>
+                                        <td class="p-3 text-amber-700 font-bold">แรงดันลบเข้มงวด (-30 ถึง -50 Pa)</td>
+                                        <td class="p-3 text-rose-700 font-bold">แรงดันลบระดับปิดสนิท (-50+ Pa)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold bg-slate-100 text-slate-900">ทิศทางลม (Airflow)</td>
+                                        <td class="p-3">ระบายอากาศทั่วไป</td>
+                                        <td class="p-3">ระบายอากาศทั่วไป + BSC</td>
+                                        <td class="p-3">Directional Airflow (Clean $\rightarrow$ Dirty)</td>
+                                        <td class="p-3">Directional Airflow 100% ลมไม่หมุนวนย้อนกลับ</td>
+                                        <td class="p-3">ระบบหมุนเวียนอากาศแยกเด็ดขาด 100%</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold bg-slate-100 text-slate-900">การกรองอากาศ (HEPA Filter)</td>
+                                        <td class="p-3">ไม่มี</td>
+                                        <td class="p-3">มีในตู้ BSC Class II</td>
+                                        <td class="p-3">HEPA Exhaust ในตู้ BSC & ห้อง</td>
+                                        <td class="p-3">HEPA Exhaust 99.97% ปล่อยออกนอกอาคาร</td>
+                                        <td class="p-3">Double HEPA Filter Exhaust แบบอนุกรม</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold bg-slate-100 text-slate-900">ห้องกั้นแรงดัน (Anteroom)</td>
+                                        <td class="p-3">ไม่มี</td>
+                                        <td class="p-3">ไม่มี หรือมีฉากกั้น</td>
+                                        <td class="p-3">มี Anteroom 1 ชั้น</td>
+                                        <td class="p-3">มี Anteroom 2 ชั้น พร้อมประตู Interlock</td>
+                                        <td class="p-3">Airlock Multi-stage + Chemical Shower</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold bg-slate-100 text-slate-900">อุปกรณ์ PPE หลัก</td>
+                                        <td class="p-3">Lab coat, ถุงมือ, แว่นตา</td>
+                                        <td class="p-3">Gown กันน้ำ, ถุงมือ 2 ชั้น, Face shield</td>
+                                        <td class="p-3">Gown ซีลหลัง, หน้ากาก N95, หมวก, ถุงเท้า</td>
+                                        <td class="p-3">ชุด Coverall / Hazmat, PAPR หรือ N95+Goggles</td>
+                                        <td class="p-3">Positive Pressure Suit (ชุดมนุษย์อวกาศ supply ลม)</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="p-3 font-bold bg-slate-100 text-slate-900">การทำลายขยะติดเชื้อ</td>
+                                        <td class="p-3">ส่งทำลายขยะทั่วไป</td>
+                                        <td class="p-3">Autoclave นอกห้อง/ในศูนย์ฯ</td>
+                                        <td class="p-3">Autoclave / Pass-box ประจำโซน</td>
+                                        <td class="p-3">Double-door Autoclave ในตัวห้อง BSL-3</td>
+                                        <td class="p-3">Autoclave คู่อัตโนมัติ + ระบบบำบัดน้ำเสีย EDS</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- DONNING & DOFFING SEQUENCE INFOGRAPHIC -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-person-arrow-up-from-line text-emerald-600"></i>
+                            <span>ลำดับขั้นตอนการสวมและถอดอุปกรณ์ PPE (Donning & Doffing Sequence)</span>
+                        </h3>
+                        <p class="text-xs text-slate-600">
+                            การถอด PPE อย่างผิดวิธีเป็นสาเหตุอันดับหนึ่งของการปนเปื้อนเชื้อสู่ผู้ปฏิบัติงาน ต้องปฏิบัติตามลำดับเคร่งครัด:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-1">
+                            <!-- Donning -->
+                            <div class="bg-emerald-50/70 border border-emerald-200 p-4 rounded-xl space-y-2">
+                                <div class="font-bold text-emerald-900 text-sm flex items-center space-x-2">
+                                    <span class="w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center text-xs">1</span>
+                                    <span>ลำดับการสวมชุด PPE (Donning Sequence)</span>
+                                </div>
+                                <ol class="text-slate-700 space-y-1.5 pl-2 border-l-2 border-emerald-400">
+                                    <li><strong>1. ล้างมือ (Hand Hygiene):</strong> ด้วยแอลกอฮอล์เจลหรือสบู่</li>
+                                    <li><strong>2. สวมเสื้อกาวน์ (Gown / Coverall):</strong> ผูกเชือกให้มิดชิด</li>
+                                    <li><strong>3. สวมหน้ากาก (Mask / N95):</strong> กดแถบโลหะกระชับดั้งจมูก และทดสอบ Fit Check</li>
+                                    <li><strong>4. สวมอุปกรณ์ปกป้องตา (Goggles / Face Shield)</strong></li>
+                                    <li><strong>5. สวมถุงมือ (Gloves):</strong> ดึงขอบถุงมือทับปลายแขนเสื้อกาวน์</li>
+                                </ol>
+                            </div>
+
+                            <!-- Doffing -->
+                            <div class="bg-rose-50/70 border border-rose-200 p-4 rounded-xl space-y-2">
+                                <div class="font-bold text-rose-900 text-sm flex items-center space-x-2">
+                                    <span class="w-6 h-6 bg-rose-600 text-white rounded-full flex items-center justify-center text-xs">2</span>
+                                    <span>ลำดับการถอดชุด PPE (Doffing Sequence)</span>
+                                </div>
+                                <ol class="text-slate-700 space-y-1.5 pl-2 border-l-2 border-rose-400">
+                                    <li><strong>1. ถอดถุงมือ (Gloves):</strong> ถอดแบบกลับด้านนอกเข้าข้างใน ไม่สัมผัสผิวหนัง (ส่วนปนเปื้อนที่สุด)</li>
+                                    <li><strong>2. ถอดเสื้อกาวน์ (Gown):</strong>ปลดสาย ม้วนส่วนปนเปื้อนเข้าข้างในแล้วทิ้งถังขยะติดเชื้อ</li>
+                                    <li><strong>3. ล้างมือ (Hand Hygiene)</strong></li>
+                                    <li><strong>4. ถอดแว่นตา/Face Shield:</strong> จับที่สายรัดด้านหลัง</li>
+                                    <li><strong>5. ถอดหน้ากาก (N95 / Mask):</strong> จับสายรัดด้านหลัง ไม่สัมผัสหน้ากากด้านหน้า</li>
+                                    <li><strong>6. ล้างมืออย่างเคร่งครัดทันที</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Biosafety Cabinet (BSC Class II) Visual Diagram -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-fan text-sky-600"></i>
+                            <span>แผนภาพหลักการทำงานของตู้ชีวภาพ Class II Biosafety Cabinet (BSC)</span>
+                        </h3>
+                        <p class="text-xs text-slate-600">
+                            อุปกรณ์สำคัญในการปฏิบัติงานกับเชื้อเสี่ยงสูงในห้องพยาธิวิทยาคลินิก ออกแบบเพื่อป้องกันทั้งผู้ปฏิบัติงาน สิ่งแวดล้อม และตัวอย่างทดลอง
+                        </p>
+                        
+                        <!-- SVG Cabinet Flow Diagram -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 flex justify-center items-center">
+                            <svg viewBox="0 0 500 240" class="w-full max-w-lg h-auto">
+                                <!-- Outer Cabinet -->
+                                <rect x="100" y="20" width="300" height="200" rx="12" fill="#e2e8f0" stroke="#64748b" stroke-width="3"/>
+                                <!-- Interior Work Area -->
+                                <rect x="130" y="80" width="240" height="110" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
+                                <!-- HEPA Filter Top -->
+                                <rect x="130" y="40" width="240" height="20" fill="#fde047" stroke="#eab308" stroke-width="2"/>
+                                <text x="250" y="54" text-anchor="middle" font-size="11" font-weight="bold" fill="#854d0e">HEPA Filter (กรองเชื้อโรค 99.97%)</text>
+                                
+                                <!-- Glass Sash Window -->
+                                <line x1="130" y1="80" x2="130" y2="150" stroke="#38bdf8" stroke-width="6"/>
+                                <text x="90" y="120" font-size="10" fill="#0284c7" font-weight="bold">กระจก Sash</text>
+
+                                <!-- Airflow Arrows -->
+                                <!-- Inflow Air -->
+                                <path d="M 90 185 L 140 185" stroke="#ef4444" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+                                <text x="50" y="188" font-size="10" fill="#dc2626" font-weight="bold">อากาศเข้า (Inflow)</text>
+
+                                <!-- Downflow Clean Air -->
+                                <path d="M 200 65 L 200 120" stroke="#10b981" stroke-width="3" stroke-dasharray="4" fill="none"/>
+                                <path d="M 300 65 L 300 120" stroke="#10b981" stroke-width="3" stroke-dasharray="4" fill="none"/>
+                                <text x="250" y="110" text-anchor="middle" font-size="11" fill="#047857" font-weight="bold">อากาศสะอาดกรองผ่าน HEPA (Downflow)</text>
+
+                                <!-- Exhaust -->
+                                <path d="M 250 35 L 250 10" stroke="#6366f1" stroke-width="3" fill="none"/>
+                                <text x="320" y="18" font-size="10" fill="#4338ca" font-weight="bold">ระบายอากาศออก (Exhaust Air)</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- BSL Levels Infographic Table -->
+                    <h3 class="font-bold text-slate-800 text-sm pt-2">ระดับความปลอดภัยทางชีวภาพ (Biosafety Levels: BSL 1-4)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                        <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-emerald-800">BSL-1</span>
+                                <i class="fa-solid fa-leaf text-emerald-600"></i>
+                            </div>
+                            <span class="font-semibold text-slate-800 block">ความเสี่ยงต่ำมาก</span>
+                            <p class="text-slate-600 text-[11px]">เชื้อไม่ก่อโรคในคนปกติ เช่น E. coli K12, Lactobacillus</p>
+                        </div>
+                        <div class="p-3.5 bg-sky-50 border border-sky-300 rounded-xl space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-sky-800">BSL-2 (ห้องชันสูตรฯ)</span>
+                                <i class="fa-solid fa-flask text-sky-600"></i>
+                            </div>
+                            <span class="font-semibold text-slate-800 block">ความเสี่ยงปานกลาง</span>
+                            <p class="text-slate-600 text-[11px]">ก่อโรค มีทางรักษา/วัคซีน เช่น HBV, HIV, HPV, Dengue</p>
+                        </div>
+                        <div class="p-3.5 bg-amber-50 border border-amber-300 rounded-xl space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-amber-800">BSL-3</span>
+                                <i class="fa-solid fa-mask-ventilator text-amber-600"></i>
+                            </div>
+                            <span class="font-semibold text-slate-800 block">ความเสี่ยงสูง (Aerosol)</span>
+                            <p class="text-slate-600 text-[11px]">แพร่ทางอากาศ รุนแรง เช่น TB, SARS-CoV-2, Anthrax</p>
+                        </div>
+                        <div class="p-3.5 bg-rose-50 border border-rose-300 rounded-xl space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-rose-800">BSL-4</span>
+                                <i class="fa-solid fa-skull-crossbones text-rose-600"></i>
+                            </div>
+                            <span class="font-semibold text-slate-800 block">ความเสี่ยงสูงมาก</span>
+                            <p class="text-slate-600 text-[11px]">อันตรายร้ายแรง ไม่มียารักษา เช่น Ebola, Marburg virus</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: LAB STANDARDS -->
+            <section id="tab-iso" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                        <div class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">มาตรฐานห้องปฏิบัติการพยาธิวิทยาคลินิก</h2>
+                            <p class="text-xs text-slate-500">MOPH LA, ISO 15189:2022 และ ISO 15190:2020</p>
+                        </div>
+                    </div>
+
+                    <!-- Standards Overview Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-xl border border-slate-200 bg-sky-50/50 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-sky-800 text-sm">MOPH LA</span>
+                                <span class="text-[10px] bg-sky-200 text-sky-900 px-2 py-0.5 rounded font-bold">กระทรวงสาธารณสุข</span>
+                            </div>
+                            <h4 class="font-semibold text-slate-800 text-xs">มาตรฐานห้องปฏิบัติการชันสูตรสาธารณสุข</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">เน้นระบบบริหารคุณภาพการให้บริการที่สอดคล้องกับบริบทของระบบสุขภาพและโรงพยาบาลในประเทศไทย</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl border border-slate-200 bg-emerald-50/50 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-emerald-800 text-sm">ISO 15189:2022</span>
+                                <span class="text-[10px] bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded font-bold">มาตรฐานสากล</span>
+                            </div>
+                            <h4 class="font-semibold text-slate-800 text-xs">Medical Laboratories — Quality & Competence</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">กำหนดสมรรถนะความสามารถทางเทคนิค ความแม่นยำของผลตรวจ และการบริหารจัดการความเสี่ยง (Risk Management)</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl border border-slate-200 bg-purple-50/50 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-purple-800 text-sm">ISO 15190:2020</span>
+                                <span class="text-[10px] bg-purple-200 text-purple-900 px-2 py-0.5 rounded font-bold">มาตรฐานสากล</span>
+                            </div>
+                            <h4 class="font-semibold text-slate-800 text-xs">Medical Laboratories — Requirements for Safety</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">กำหนดมาตรฐานความปลอดภัย สภาพแวดล้อม การกำจัดขยะติดเชื้อ และการรับมือเหตุฉุกเฉินทางชีวภาพ</p>
+                        </div>
+                    </div>
+
+                    <!-- Quality Control Infographic (IQC vs EQA) -->
+                    <div class="p-5 bg-slate-50 rounded-2xl border border-slate-200 space-y-4">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-list-check text-sky-600"></i>
+                            <span>ระบบควบคุมคุณภาพห้องปฏิบัติการ (Quality Assurance Cycle)</span>
+                        </h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+                                <div class="flex items-center space-x-2 text-sky-700 font-bold text-sm">
+                                    <i class="fa-solid fa-arrows-spin"></i>
+                                    <span>1. Internal Quality Control (IQC)</span>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">
+                                    การตรวจสารควบคุมคุณภาพประจำวัน <strong>ก่อนทำการตรวจตัวอย่างผู้ป่วยจริง</strong> เพื่อประเมินความเที่ยงตรง (Precision) และความสม่ำเสมอของเครื่องมือและน้ำยาตรวจ
+                                </p>
+                                <span class="inline-block bg-sky-100 text-sky-800 text-[10px] font-semibold px-2 py-0.5 rounded">ทำทุกวัน / ทุก Batch งาน</span>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+                                <div class="flex items-center space-x-2 text-emerald-700 font-bold text-sm">
+                                    <i class="fa-solid fa-bullseye"></i>
+                                    <span>2. External Quality Assessment (EQA/PT)</span>
+                                </div>
+                                <p class="text-slate-600 leading-relaxed">
+                                    การวิเคราะห์ตัวอย่างปริศนาจากหน่วยงานประเมินภายนอก แล้วส่งผลกลับไปเปรียบเทียบกับ Lab อื่นทั่วประเทศ เพื่อประเมินความแม่นยำ (Accuracy)
+                                </p>
+                                <span class="inline-block bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded">ประเมินทุก 3-4 เดือน</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3.1: DETAILED LAB WORKFLOW (3 PHASES) -->
+            <section id="tab-workflow" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                        <div class="w-10 h-10 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-arrows-split-up-and-left"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">วงจรการตรวจวิเคราะห์ทางห้องปฏิบัติการพยาธิวิทยาคลินิก 3 ระยะ</h2>
+                            <p class="text-xs text-slate-500">Pre-Analytical $\rightarrow$ Analytical $\rightarrow$ Post-Analytical Workflow</p>
+                        </div>
+                    </div>
+
+                    <!-- Visual Master Process Flow Banner -->
+                    <div class="bg-slate-900 text-white p-5 rounded-2xl shadow-md space-y-4">
+                        <h3 class="font-bold text-sm text-sky-400 flex items-center space-x-2">
+                            <i class="fa-solid fa-diagram-project"></i>
+                            <span>แผนผังรวมภาพรวมกระบวนการตรวจวิเคราะห์ (End-to-End Clinical Lab Flowchart)</span>
+                        </h3>
+                        
+                        <!-- SVG Master Workflow Diagram -->
+                        <div class="overflow-x-auto pb-2">
+                            <svg viewBox="0 0 800 180" class="w-full min-w-[700px] h-auto">
+                                <!-- Pre-Analytical Box -->
+                                <g transform="translate(10, 10)">
+                                    <rect x="0" y="0" width="240" height="150" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+                                    <rect x="0" y="0" width="240" height="32" rx="12" fill="#0284c7"/>
+                                    <text x="120" y="21" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">1. Pre-Analytical Phase</text>
+                                    <text x="120" y="38" text-anchor="middle" font-size="10" fill="#7dd3fc">(ระยะก่อนการวิเคราะห์ - 60-70% ของข้อผิดพลาด)</text>
+                                    
+                                    <text x="15" y="65" font-size="10" fill="#e2e8f0">• เตรียมผู้ป่วย & ใบส่งตรวจ (Requisition)</text>
+                                    <text x="15" y="85" font-size="10" fill="#e2e8f0">• เก็บตัวอย่าง & ติดบาร์โค้ด (Collection/Labeling)</text>
+                                    <text x="15" y="105" font-size="10" fill="#e2e8f0">• การขนส่งควบคุมอุณหภูมิ (Cold Chain 2-8°C)</text>
+                                    <text x="15" y="125" font-size="10" fill="#e2e8f0">• ตรวจรับ & ปฏิเสธสิ่งส่งตรวจ (Rejection Check)</text>
+                                </g>
+
+                                <!-- Arrow 1 -->
+                                <path d="M 255 85 L 275 85" stroke="#f59e0b" stroke-width="3" fill="none" marker-end="url(#arrow1)"/>
+
+                                <!-- Analytical Box -->
+                                <g transform="translate(280, 10)">
+                                    <rect x="0" y="0" width="240" height="150" rx="12" fill="#1e293b" stroke="#818cf8" stroke-width="2"/>
+                                    <rect x="0" y="0" width="240" height="32" rx="12" fill="#4f46e5"/>
+                                    <text x="120" y="21" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">2. Analytical Phase</text>
+                                    <text x="120" y="38" text-anchor="middle" font-size="10" fill="#c7d2fe">(ระยะทำการวิเคราะห์)</text>
+
+                                    <text x="15" y="65" font-size="10" fill="#e2e8f0">• ตรวจสารควบคุมคุณภาพ (IQC Daily)</text>
+                                    <text x="15" y="85" font-size="10" fill="#e2e8f0">• สกัด DNA/RNA และทำ Real-Time PCR</text>
+                                    <text x="15" y="105" font-size="10" fill="#e2e8f0">• การสอบเทียบเครื่องมือ (Calibration)</text>
+                                    <text x="15" y="125" font-size="10" fill="#e2e8f0">• ควบคุมภาวะปนเปื้อน (Contamination Control)</text>
+                                </g>
+
+                                <!-- Arrow 2 -->
+                                <path d="M 525 85 L 545 85" stroke="#f59e0b" stroke-width="3" fill="none"/>
+
+                                <!-- Post-Analytical Box -->
+                                <g transform="translate(550, 10)">
+                                    <rect x="0" y="0" width="240" height="150" rx="12" fill="#1e293b" stroke="#34d399" stroke-width="2"/>
+                                    <rect x="0" y="0" width="240" height="32" rx="12" fill="#059669"/>
+                                    <text x="120" y="21" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">3. Post-Analytical Phase</text>
+                                    <text x="120" y="38" text-anchor="middle" font-size="10" fill="#a7f3d0">(ระยะหลังการวิเคราะห์)</text>
+
+                                    <text x="15" y="65" font-size="10" fill="#e2e8f0">• แปลผล & ทบทวนผลตรวจ (Result Verification)</text>
+                                    <text x="15" y="85" font-size="10" fill="#e2e8f0">• อนุมัติผลโดยนักเทคนิคการแพทย์ (Approval)</text>
+                                    <text x="15" y="105" font-size="10" fill="#e2e8f0">• ส่งรายงาน LIS / E-Report / Critical Alert</text>
+                                    <text x="15" y="125" font-size="10" fill="#e2e8f0">• จัดเก็บตัวอย่างสำรอง & กำจัดขยะติดเชื้อ</text>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Phase Selector Tabs -->
+                    <div class="flex border-b border-slate-200 gap-2">
+                        <button onclick="showWorkflowStep('pre')" id="wbtn-pre" class="wf-tab active font-bold text-xs sm:text-sm px-4 py-2.5 rounded-t-xl bg-sky-600 text-white border-b-2 border-sky-600">
+                            1. ระยะก่อนการวิเคราะห์ (Pre-Analytical)
+                        </button>
+                        <button onclick="showWorkflowStep('ana')" id="wbtn-ana" class="wf-tab font-bold text-xs sm:text-sm px-4 py-2.5 rounded-t-xl bg-slate-100 text-slate-600 hover:bg-slate-200">
+                            2. ระยะทำการวิเคราะห์ (Analytical)
+                        </button>
+                        <button onclick="showWorkflowStep('post')" id="wbtn-post" class="wf-tab font-bold text-xs sm:text-sm px-4 py-2.5 rounded-t-xl bg-slate-100 text-slate-600 hover:bg-slate-200">
+                            3. ระยะหลังการวิเคราะห์ (Post-Analytical)
+                        </button>
+                    </div>
+
+                    <!-- PHASE 1: PRE-ANALYTICAL CONTENT -->
+                    <div id="wf-sec-pre" class="wf-sec space-y-5">
+                        <div class="bg-sky-50 border border-sky-200 p-4 rounded-xl">
+                            <h4 class="font-bold text-sky-900 text-sm mb-2 flex items-center space-x-2">
+                                <i class="fa-solid fa-boxes-packing text-sky-600"></i>
+                                <span>เจาะลึกขั้นตอน Pre-Analytical (จุดที่พบข้อผิดพลาดบ่อยที่สุดในงานพยาธิวิทยาคลินิก)</span>
+                            </h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                จากสถิติงานชันสูตรสาธารณสุข ข้อผิดพลาดมากกว่า 60-70% เกิดขึ้นในระยะนี้ ศูนย์วิทย์ฯ 4 สระบุรี จึงมีระบบมาตรฐานเข้มงวด ตั้งแต่การเตรียมตัวผู้ป่วย ชนิดหลอดเก็บสิ่งส่งตรวจ ระบบควบคุมอุณหภูมิขนส่ง ไปจนถึงเกณฑ์การปฏิเสธสิ่งส่งตรวจ (Rejection Criteria)
+                            </p>
+                        </div>
+
+                        <!-- Step Cards Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+                                <div class="flex items-center space-x-2 text-sky-700 font-bold">
+                                    <span class="w-6 h-6 bg-sky-100 rounded-full flex items-center justify-center text-xs">1</span>
+                                    <span>การเก็บสิ่งส่งตรวจ (Specimen Collection)</span>
+                                </div>
+                                <ul class="text-slate-600 space-y-1.5 pl-2 border-l-2 border-sky-300">
+                                    <li>• <strong>EDTA Tube (จุกม่วง):</strong> สำหรับตรวจ DNA/ยีนแพ้ยา HLA, NAT2</li>
+                                    <li>• <strong>Clot Activator (จุกแดง/เหลือง):</strong> สำหรับตรวจซีรัมทางภูมิคุ้มกัน</li>
+                                    <li>• <strong>VTM / Swab Container:</strong> สำหรับตรวจเชื้อ HPV DNA และไวรัส</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+                                <div class="flex items-center space-x-2 text-sky-700 font-bold">
+                                    <span class="w-6 h-6 bg-sky-100 rounded-full flex items-center justify-center text-xs">2</span>
+                                    <span>บาร์โค้ด & Cold Chain Transport</span>
+                                </div>
+                                <ul class="text-slate-600 space-y-1.5 pl-2 border-l-2 border-sky-300">
+                                    <li>• ติดป้ายชื่อ-สกุล และ Barcode LIS ที่ข้างหลอดอย่างชัดเจน</li>
+                                    <li>• ขนส่งด้วยกระติกควบคุมอุณหภูมิ (Ice Pack 2-8°C)</li>
+                                    <li>• มี Data Logger บันทึกอุณหภูมิตลอดการเดินทางจาก รพ. เครือข่าย</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+                                <div class="flex items-center space-x-2 text-sky-700 font-bold">
+                                    <span class="w-6 h-6 bg-sky-100 rounded-full flex items-center justify-center text-xs">3</span>
+                                    <span>การรับตัวอย่าง & เตรียมสิ่งส่งตรวจ</span>
+                                </div>
+                                <ul class="text-slate-600 space-y-1.5 pl-2 border-l-2 border-sky-300">
+                                    <li>• ตรวจสอบ Requisition Form ตรงกับหลอดตัวอย่าง 100%</li>
+                                    <li>• ปั่นแยกพลาสมา/ซีรัม (Centrifugation 3,000 rpm, 10 min)</li>
+                                    <li>• เข้าสู่กระบวนการสกัด DNA/RNA อัตโนมัติ (Automated Extraction)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Specimen Rejection Checker -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-slate-800 text-xs uppercase tracking-wider flex items-center space-x-2">
+                                <i class="fa-solid fa-triangle-exclamation text-amber-500"></i>
+                                <span>เกณฑ์การปฏิเสธสิ่งส่งตรวจ (Specimen Rejection Criteria Interactive Checker)</span>
+                            </h4>
+                            <p class="text-xs text-slate-600">คลิกเลือกสภาวะสิ่งส่งตรวจเพื่อทดสอบว่า Lab จะรับตรวจหรือปฏิเสธ:</p>
+                            
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                <button onclick="checkSpecimenStatus('clot')" class="p-2.5 bg-white border border-slate-300 rounded-xl hover:border-amber-500 text-left font-medium">
+                                    🩸 เลือดเกิดลิ่ม (Clotted Specimen)
+                                </button>
+                                <button onclick="checkSpecimenStatus('hemo')" class="p-2.5 bg-white border border-slate-300 rounded-xl hover:border-amber-500 text-left font-medium">
+                                    🍷 เลือดแตกตัว (Hemolyzed)
+                                </button>
+                                <button onclick="checkSpecimenStatus('wrong_vol')" class="p-2.5 bg-white border border-slate-300 rounded-xl hover:border-amber-500 text-left font-medium">
+                                    🧪 ปริมาณเลือดไม่พอ (Insufficient)
+                                </button>
+                                <button onclick="checkSpecimenStatus('correct')" class="p-2.5 bg-white border border-slate-300 rounded-xl hover:border-emerald-500 text-left font-medium">
+                                    ✅ เลือดสมบูรณ์ สภาพปกติ
+                                </button>
+                            </div>
+
+                            <div id="rejectionOutput" class="p-3.5 bg-white rounded-xl border border-slate-200 text-xs">
+                                <span class="text-slate-500">เลือกรายการด้านบนเพื่อดูการตัดสินใจของห้องปฏิบัติการ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PHASE 2: ANALYTICAL CONTENT -->
+                    <div id="wf-sec-ana" class="wf-sec hidden space-y-5">
+                        <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl">
+                            <h4 class="font-bold text-indigo-900 text-sm mb-2 flex items-center space-x-2">
+                                <i class="fa-solid fa-microscope text-indigo-600"></i>
+                                <span>เจาะลึกขั้นตอน Analytical (กระบวนการวิเคราะห์ความแม่นยำสูง)</span>
+                            </h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                ขั้นตอนการลงมือวิเคราะห์ตัวอย่างจริงด้วยเทคโนโลยีอณูชีววิทยาขั้นสูง (Real-time PCR, Real-time SNP Genotyping) ภายใต้การควบคุมคุณภาพ IQC ทุก Batch งาน
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+                                <div class="font-bold text-indigo-700 flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                    <span>1. การควบคุมคุณภาพประจำวัน (Daily IQC)</span>
+                                </div>
+                                <p class="text-slate-600">
+                                    ต้องตรวจตัวอย่างควบคุม Positive Control, Negative Control, และ No Template Control (NTC) ทุกครั้ง หาก IQC ไม่ผ่าน ห้ามรายงานผลตัวอย่างผู้ป่วย
+                                </p>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+                                <div class="font-bold text-indigo-700 flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-dna"></i>
+                                    <span>2. ปฏิกิริยาเพิ่มปริมาณ DNA & Probe</span>
+                                </div>
+                                <p class="text-slate-600">
+                                    ผสม Master Mix, Taq DNA Polymerase, Specific Primers และ Fluorescent Probes สกัดและติดฉลากเรืองแสงเฉพาะเจาะจง
+                                </p>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+                                <div class="font-bold text-indigo-700 flex items-center space-x-1.5">
+                                    <i class="fa-solid fa-shield-virus"></i>
+                                    <span>3. การป้องกัน Cross-Contamination</span>
+                                </div>
+                                <p class="text-slate-600">
+                                    แบ่งพื้นที่ปฏิบัติงานเด็ดขาด (Pre-PCR Area, Extraction Area, Post-PCR Area) พร้อมเปิดหลอดยูวี (UV Light) และใช้ Filter Tips กันการปนเปื้อน
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- IQC Status Simulator Card -->
+                        <div class="bg-indigo-950 text-white p-4 rounded-xl space-y-2 text-xs">
+                            <div class="font-bold text-sky-300 flex items-center justify-between">
+                                <span>จำลองการตรวจเช็ค IQC ก่อนอนุมัติ Batch งาน (IQC Quality Gate)</span>
+                                <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded text-[10px]">Westgard Rules Pass</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 pt-2 text-center text-[11px]">
+                                <div class="bg-slate-800 p-2 rounded border border-slate-700">
+                                    <div class="text-slate-400">Positive Control</div>
+                                    <div class="font-bold text-emerald-400">Ct = 18.4 (ผ่าน)</div>
+                                </div>
+                                <div class="bg-slate-800 p-2 rounded border border-slate-700">
+                                    <div class="text-slate-400">Negative Control</div>
+                                    <div class="font-bold text-emerald-400">Undetected (ผ่าน)</div>
+                                </div>
+                                <div class="bg-slate-800 p-2 rounded border border-slate-700">
+                                    <div class="text-slate-400">Internal Control</div>
+                                    <div class="font-bold text-emerald-400">Ct = 22.1 (ผ่าน)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PHASE 3: POST-ANALYTICAL CONTENT -->
+                    <div id="wf-sec-post" class="wf-sec hidden space-y-5">
+                        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl">
+                            <h4 class="font-bold text-emerald-900 text-sm mb-2 flex items-center space-x-2">
+                                <i class="fa-solid fa-file-signature text-emerald-600"></i>
+                                <span>เจาะลึกขั้นตอน Post-Analytical (การแปลผล ตรวจทาน และส่งรายงานผล)</span>
+                            </h4>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                ระยะรายงานผลการวิเคราะห์ การตรวจสอบความถูกต้องทางเทคนิคและทางคลินิก (Technical & Clinical Verification) การแจ้งเตือนผลวิกฤต และการจัดเก็บตัวอย่างสำรอง
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+                                <div class="flex items-center space-x-2 text-emerald-700 font-bold">
+                                    <span class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center text-xs">1</span>
+                                    <span>Technical & Clinical Validation</span>
+                                </div>
+                                <ul class="text-slate-600 space-y-1 pl-2 border-l-2 border-emerald-300">
+                                    <li>• นักเทคนิคการแพทย์ประเมินค่า Ct และสัญญาณเรืองแสง</li>
+                                    <li>• เทียบผลกับประวัติผู้ป่วยและสิ่งส่งตรวจ</li>
+                                    <li>• ลงลายมือชื่ออนุมัติผลผ่านระบบ LIS</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+                                <div class="flex items-center space-x-2 text-emerald-700 font-bold">
+                                    <span class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center text-xs">2</span>
+                                    <span>E-Report & Critical Value Alert</span>
+                                </div>
+                                <ul class="text-slate-600 space-y-1 pl-2 border-l-2 border-emerald-300">
+                                    <li>• ส่งรายงานผลอิเล็กทรอนิกส์ (E-Report) แก่ รพ. เครือข่าย</li>
+                                    <li>• <strong>กรณีพบยีนเสี่ยงสูง (เช่น HLA-B*58:01 Positive):</strong> แจ้งเตือนด่วนทางโทรศัพท์/ระบบทันทีเพื่อหยุดยาอันตราย</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2 shadow-sm">
+                                <div class="flex items-center space-x-2 text-emerald-700 font-bold">
+                                    <span class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center text-xs">3</span>
+                                    <span>Sample Retention & Waste Disposal</span>
+                                </div>
+                                <ul class="text-slate-600 space-y-1 pl-2 border-l-2 border-emerald-300">
+                                    <li>• จัดเก็บ DNA สำรองไว้ที่ -20°C / -80°C เป็นเวลาตามมาตรฐาน</li>
+                                    <li>• ทำลายสิ่งส่งตรวจติดเชื้อด้วยการหม้อนึ่งอัดพฤกษ์ (Autoclave)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: PCR & HPV DNA TESTING -->
+            <section id="tab-pcr-hpv" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                        <div class="w-10 h-10 bg-purple-100 text-purple-700 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-dna"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">หลักการ PCR และการตรวจ HPV DNA</h2>
+                            <p class="text-xs text-slate-500">การตรวจคัดกรองมะเร็งปากมดลูกด้วยเทคนิคอณูชีววิทยา</p>
+                        </div>
+                    </div>
+
+                    <!-- PCR 3 Steps Visual Diagram -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-rotate text-purple-600"></i>
+                            <span>แผนภาพขั้นตอนการเพิ่มปริมาณ DNA ด้วยเทคนิค PCR (3 Step Thermal Cycling)</span>
+                        </h3>
+
+                        <!-- SVG Polymerase Cycle Diagram -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 flex justify-center">
+                            <svg viewBox="0 0 600 180" class="w-full max-w-xl h-auto">
+                                <!-- Step 1 Denaturation -->
+                                <g transform="translate(10, 20)">
+                                    <rect x="0" y="0" width="170" height="140" rx="10" fill="#f3e8ff" stroke="#c084fc" stroke-width="2"/>
+                                    <text x="85" y="25" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b21a8">1. Denaturation</text>
+                                    <text x="85" y="42" text-anchor="middle" font-size="11" font-weight="bold" fill="#7e22ce">(~95°C)</text>
+                                    <!-- Double strand separating -->
+                                    <path d="M 30 65 Q 85 50 140 65" stroke="#a855f7" stroke-width="3" fill="none"/>
+                                    <path d="M 30 105 Q 85 120 140 105" stroke="#a855f7" stroke-width="3" fill="none"/>
+                                    <text x="85" y="90" text-anchor="middle" font-size="10" fill="#581c87">แยกสาย DNA เกลียวคู่</text>
+                                </g>
+
+                                <!-- Arrow 1 -->
+                                <path d="M 185 90 L 205 90" stroke="#9333ea" stroke-width="3" fill="none"/>
+
+                                <!-- Step 2 Annealing -->
+                                <g transform="translate(210, 20)">
+                                    <rect x="0" y="0" width="170" height="140" rx="10" fill="#e0e7ff" stroke="#818cf8" stroke-width="2"/>
+                                    <text x="85" y="25" text-anchor="middle" font-size="12" font-weight="bold" fill="#3730a3">2. Annealing</text>
+                                    <text x="85" y="42" text-anchor="middle" font-size="11" font-weight="bold" fill="#4338ca">(~55°C)</text>
+                                    <path d="M 20 65 L 150 65" stroke="#6366f1" stroke-width="2" fill="none"/>
+                                    <rect x="20" y="61" width="30" height="8" fill="#ef4444" rx="2"/>
+                                    <text x="35" y="55" text-anchor="middle" font-size="9" fill="#dc2626" font-weight="bold">Primer</text>
+                                    <path d="M 20 105 L 150 105" stroke="#6366f1" stroke-width="2" fill="none"/>
+                                    <rect x="120" y="101" width="30" height="8" fill="#ef4444" rx="2"/>
+                                    <text x="85" y="90" text-anchor="middle" font-size="10" fill="#312e81">Primer จับสายแม่แบบ</text>
+                                </g>
+
+                                <!-- Arrow 2 -->
+                                <path d="M 385 90 L 405 90" stroke="#4f46e5" stroke-width="3" fill="none"/>
+
+                                <!-- Step 3 Extension -->
+                                <g transform="translate(410, 20)">
+                                    <rect x="0" y="0" width="170" height="140" rx="10" fill="#e0f2fe" stroke="#38bdf8" stroke-width="2"/>
+                                    <text x="85" y="25" text-anchor="middle" font-size="12" font-weight="bold" fill="#075985">3. Extension</text>
+                                    <text x="85" y="42" text-anchor="middle" font-size="11" font-weight="bold" fill="#0369a1">(~72°C)</text>
+                                    <path d="M 20 65 L 150 65" stroke="#0284c7" stroke-width="3" fill="none"/>
+                                    <circle cx="90" cy="65" r="10" fill="#10b981"/>
+                                    <text x="90" y="68" text-anchor="middle" font-size="8" fill="#fff" font-weight="bold">Taq</text>
+                                    <text x="85" y="100" text-anchor="middle" font-size="10" fill="#0c4a6e">สร้างสาย DNA ใหม่</text>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Real-time PCR Amplification Curve Visual Chart -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-chart-line text-purple-600"></i>
+                            <span>ลักษณะกราฟสัญญาณเรืองแสง Real-Time PCR (Ct Value)</span>
+                        </h3>
+                        <p class="text-xs text-slate-600">
+                            ค่า <strong>Ct (Cycle Threshold)</strong> คือรอบของปฏิกิริยาที่สัญญาณเรืองแสงสูงข้ามเส้นเกณฑ์ ยิ่งมีปริมาณเชื้อมาก ค่า Ct จะยิ่งต่ำ
+                        </p>
+                        <div class="h-44 w-full">
+                            <canvas id="pcrCurveChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- HPV DNA 14 High-Risk Genotypes Breakdown -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                                <i class="fa-solid fa-virus text-purple-600"></i>
+                                <span>สายพันธุ์เชื้อ HPV ความเสี่ยงสูง 14 สายพันธุ์</span>
+                            </h3>
+                            <div class="bg-purple-50 p-4 rounded-xl border border-purple-200 text-xs space-y-2">
+                                <div class="flex items-center space-x-2 text-purple-900 font-bold">
+                                    <span class="bg-purple-600 text-white px-2 py-0.5 rounded text-[10px]">สายพันธุ์เสี่ยงสูงมาก</span>
+                                    <span>HPV 16, HPV 18</span>
+                                </div>
+                                <p class="text-purple-800">เป็นสาเหตุของมะเร็งปากมดลูกมากกว่า 70% ทั่วโลก</p>
+                                <hr class="border-purple-200">
+                                <div class="font-bold text-purple-900">อีก 12 สายพันธุ์เสี่ยงสูง (Other HR-HPV):</div>
+                                <div class="flex flex-wrap gap-1 text-[11px] font-semibold text-purple-700">
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">31</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">33</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">35</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">39</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">45</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">51</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">52</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">56</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">58</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">59</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">66</span>
+                                    <span class="bg-white px-2 py-1 rounded border border-purple-200">68</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- HPV Self-Sampling Workflow -->
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+                            <h4 class="font-bold text-xs text-slate-700 uppercase">ขั้นตอนบริการ HPV Self-Sampling (ตรวจด้วยตนเอง)</h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex items-start space-x-2 bg-white p-2.5 rounded-lg border border-slate-200">
+                                    <span class="bg-purple-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
+                                    <span>รับอุปกรณ์ไม้สวอป (Swab) จาก รพ.สต. หรือ รพ. ใกล้บ้าน</span>
+                                </div>
+                                <div class="flex items-start space-x-2 bg-white p-2.5 rounded-lg border border-slate-200">
+                                    <span class="bg-purple-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
+                                    <span>เก็บตัวอย่างสิ่งส่งตรวจด้วยตนเองในห้องน้ำอย่างง่ายดายและเป็นส่วนตัว</span>
+                                </div>
+                                <div class="flex items-start space-x-2 bg-white p-2.5 rounded-lg border border-slate-200">
+                                    <span class="bg-purple-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
+                                    <span>ส่งหลอดสิ่งส่งตรวจกลับมายัง ศูนย์ฯ 4 สระบุรี เพื่อตรวจสกัด DNA ด้วย Real-Time PCR</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: PHARMACOGENOMICS & DRUG ALLERGY -->
+            <section id="tab-pharmacogenomics" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                        <div class="w-10 h-10 bg-rose-100 text-rose-600 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-dna-glass"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">เภสัชพันธุศาสตร์ (Pharmacogenetics) & การแพ้ยารุนแรง</h2>
+                            <p class="text-xs text-slate-500">การตรวจยีนก่อนเริ่มยาเพื่อป้องกันผื่นแพ้ยารุนแรงอันตรายถึงชีวิต (SJS/TEN)</p>
+                        </div>
+                    </div>
+
+                    <!-- SCARs Mechanism Visual Diagram -->
+                    <div class="bg-rose-50/70 p-5 rounded-2xl border border-rose-200 space-y-3">
+                        <h3 class="font-bold text-rose-900 text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-diagram-next text-rose-600"></i>
+                            <span>แผนภาพกลไกการเกิดผื่นแพ้ยารุนแรง (Severe Cutaneous Adverse Reactions - SCARs)</span>
+                        </h3>
+                        <p class="text-xs text-rose-800 leading-relaxed">
+                            โมเลกุลยาจับกับโปรตีน <strong>HLA (Human Leukocyte Antigen)</strong> บนผิวเซลล์อย่างจำเพาะ แล้วส่งสัญญาณกระตุ้นระบบภูมิคุ้มกัน (T-Cell) ผิดปกติ ทำให้เกิดการทำลายเซลล์ผิวหนังอย่างรุนแรงเกิดผื่นพองหลุดลอก (Stevens-Johnson Syndrome / TEN)
+                        </p>
+
+                        <!-- SVG Immune Hypersensitivity Diagram -->
+                        <div class="bg-white p-4 rounded-xl border border-rose-200 flex justify-center">
+                            <svg viewBox="0 0 500 160" class="w-full max-w-lg h-auto">
+                                <!-- Cell Surface -->
+                                <rect x="20" y="110" width="460" height="30" rx="6" fill="#fecdd3" stroke="#f43f5e" stroke-width="2"/>
+                                <text x="250" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#9f1239">เยื่อหุ้มเซลล์ผิวหนัง (Keratinocyte Surface)</text>
+
+                                <!-- HLA Molecule -->
+                                <rect x="180" y="50" width="60" height="60" rx="8" fill="#fb7185" stroke="#e11d48" stroke-width="2"/>
+                                <text x="210" y="80" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">HLA-B*58:01</text>
+
+                                <!-- Drug Molecule -->
+                                <circle cx="210" cy="40" r="10" fill="#f59e0b"/>
+                                <text x="210" y="43" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">ยา</text>
+
+                                <!-- T-Cell Receptor -->
+                                <path d="M 320 20 L 320 80" stroke="#6366f1" stroke-width="4"/>
+                                <circle cx="320" cy="20" r="18" fill="#818cf8"/>
+                                <text x="320" y="24" text-anchor="middle" font-size="10" fill="#fff" font-weight="bold">T-Cell</text>
+
+                                <!-- Signal Arrow -->
+                                <path d="M 250 70 L 290 50" stroke="#dc2626" stroke-width="3" stroke-dasharray="3" fill="none"/>
+                                <text x="280" y="85" font-size="9" font-weight="bold" fill="#b91c1c">กระตุ้นภูมิคุ้มกัน!</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Key HLA Alleles Grid -->
+                    <h3 class="font-bold text-slate-800 text-sm">ยีนแพ้ยาสำคัญที่เปิดให้บริการตรวจ ณ ศูนย์ฯ สระบุรี</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-rose-600 text-sm">HLA-B*58:01</span>
+                                <span class="bg-rose-100 text-rose-800 text-[10px] px-2 py-0.5 rounded font-bold">ยาเก๊าท์</span>
+                            </div>
+                            <p class="text-slate-700"><strong>ยาเกี่ยวข้อง:</strong> Allopurinol (ยาลดกรดยูริก)</p>
+                            <p class="text-slate-600">มียีนนี้เสี่ยงผื่นแพ้ยารุนแรง SJS/TEN สูงกว่าคนทั่วไปร้อยเท่า</p>
+                            <span class="inline-block bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[10px]">พบผลบวกในเขต 4: 11.4%</span>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-indigo-600 text-sm">HLA-B*57:01</span>
+                                <span class="bg-indigo-100 text-indigo-800 text-[10px] px-2 py-0.5 rounded font-bold">ยาต้าน HIV</span>
+                            </div>
+                            <p class="text-slate-700"><strong>ยาเกี่ยวข้อง:</strong> Abacavir</p>
+                            <p class="text-slate-600">ป้องกันการเกิด Abacavir Hypersensitivity Reaction (AHR)</p>
+                            <span class="inline-block bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[10px]">พบผลบวกในเขต 4: 1.8%</span>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-purple-600 text-sm">HLA-B*15:02</span>
+                                <span class="bg-purple-100 text-purple-800 text-[10px] px-2 py-0.5 rounded font-bold">ยากันชัก</span>
+                            </div>
+                            <p class="text-slate-700"><strong>ยาเกี่ยวข้อง:</strong> Carbamazepine</p>
+                            <p class="text-slate-600">ป้องกันผื่นแพ้ยารุนแรงในกลุ่มผู้ป่วยทางระบบประสาท</p>
+                            <span class="inline-block bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[10px]">พบผลบวกในเขต 4: 41.7%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: NAT2 & ISONIAZID METABOLISM -->
+            <section id="tab-nat2" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                        <div class="w-10 h-10 bg-indigo-100 text-indigo-700 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-vial-circle-check"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">NAT2 Diplotype & การย่อยยา Isoniazid (TB)</h2>
+                            <p class="text-xs text-slate-500">การตรวจยีน N-acetyltransferase 2 เพื่อประกอบการปรับระดับยาต้านวัณโรค</p>
+                        </div>
+                    </div>
+
+                    <!-- Metabolism Pathway Diagram -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-liver text-indigo-600"></i>
+                            <span>กลไกการเปลี่ยนสภาพยา Isoniazid (INH) ที่ตับด้วยเอนไซม์ NAT2</span>
+                        </h3>
+
+                        <!-- SVG Liver Metabolism Visual -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 flex justify-center">
+                            <svg viewBox="0 0 500 130" class="w-full max-w-lg h-auto">
+                                <rect x="20" y="45" width="100" height="40" rx="8" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
+                                <text x="70" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#3730a3">Isoniazid (INH)</text>
+
+                                <path d="M 125 65 L 180 65" stroke="#4f46e5" stroke-width="3" fill="none"/>
+
+                                <rect x="185" y="35" width="130" height="60" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+                                <text x="250" y="60" text-anchor="middle" font-size="11" font-weight="bold" fill="#78350f">เอนไซม์ NAT2</text>
+                                <text x="250" y="75" text-anchor="middle" font-size="9" fill="#92400e">(ที่เซลล์ตับ)</text>
+
+                                <path d="M 320 65 L 375 65" stroke="#4f46e5" stroke-width="3" fill="none"/>
+
+                                <rect x="380" y="45" width="100" height="40" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+                                <text x="430" y="68" text-anchor="middle" font-size="10" font-weight="bold" fill="#14532d">N-acetyl-INH</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Phenotype Breakdown Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/60 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-emerald-800 text-sm">Rapid Acetylator</span>
+                                <span class="bg-emerald-200 text-emerald-800 text-[10px] px-2 py-0.5 rounded font-bold">45.3%</span>
+                            </div>
+                            <p class="text-xs text-slate-700"><strong>ย่อยยาเร็วมาก:</strong> ยาถูกกำจัดไว ระดับยาในเลือดต่ำกว่าเกณฑ์การรักษา</p>
+                            <p class="text-[11px] text-emerald-800 font-semibold">➡️ แนวทาง: พิจารณาเพิ่มขนาดยา INH</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl border border-amber-200 bg-amber-50/60 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-amber-800 text-sm">Intermediate</span>
+                                <span class="bg-amber-200 text-amber-800 text-[10px] px-2 py-0.5 rounded font-bold">12.7%</span>
+                            </div>
+                            <p class="text-xs text-slate-700"><strong>ย่อยยาปานกลาง:</strong> ระดับยาในเลือดอยู่ในเกณฑ์มาตรฐานปลอดภัย</p>
+                            <p class="text-[11px] text-amber-800 font-semibold">➡️ แนวทาง: ให้ขนาดยามาตรฐานตามน้ำหนัก</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl border border-rose-200 bg-rose-50/60 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-rose-800 text-sm">Slow Acetylator</span>
+                                <span class="bg-rose-200 text-rose-800 text-[10px] px-2 py-0.5 rounded font-bold">42.0%</span>
+                            </div>
+                            <p class="text-xs text-slate-700"><strong>ย่อยยาช้ามาก:</strong> ยาตกค้างในร่างกายสูง เสี่ยงตับอักเสบจากยา (DILI)</p>
+                            <p class="text-[11px] text-rose-800 font-semibold">➡️ แนวทาง: พิจารณาลดขนาดยา INH</p>
+                        </div>
+                    </div>
+
+                    <!-- RMSC 4 Research Statistics Chart -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <h4 class="font-bold text-xs text-slate-700 mb-3">สถิติสัดส่วน NAT2 Phenotype ในผู้ป่วยวัณโรค เขตสุขภาพที่ 4 (866 ราย)</h4>
+                        <div class="h-48 w-full max-w-md mx-auto">
+                            <canvas id="nat2Chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 7: PROFICIENCY TESTING (PT) -->
+            <section id="tab-pt" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                        <div class="w-10 h-10 bg-teal-100 text-teal-700 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">หลักการทดสอบความชำนาญ (Proficiency Testing - PT)</h2>
+                            <p class="text-xs text-slate-500">การประเมินคุณภาพภายนอก (EQA) และการคำนวณ Z-Score</p>
+                        </div>
+                    </div>
+
+                    <!-- Z-Score Normal Distribution Bell Curve Diagram -->
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                        <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                            <i class="fa-solid fa-chart-area text-teal-600"></i>
+                            <span>แผนภาพการประเมินผล PT ด้วยโค้งการกระจายปกติ (Z-Score Normal Distribution)</span>
+                        </h3>
+
+                        <!-- SVG Bell Curve Diagram -->
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 flex justify-center">
+                            <svg viewBox="0 0 500 160" class="w-full max-w-lg h-auto">
+                                <!-- Red Unsatisfactory left -->
+                                <path d="M 20 130 Q 80 130 110 110 L 110 130 Z" fill="#fecdd3"/>
+                                <!-- Yellow Questionable left -->
+                                <path d="M 110 110 Q 150 80 180 50 L 180 130 L 110 130 Z" fill="#fef08a"/>
+                                <!-- Green Satisfactory center -->
+                                <path d="M 180 50 Q 250 10 320 50 L 320 130 L 180 130 Z" fill="#bbf7d0"/>
+                                <!-- Yellow Questionable right -->
+                                <path d="M 320 50 Q 350 80 390 110 L 390 130 L 320 130 Z" fill="#fef08a"/>
+                                <!-- Red Unsatisfactory right -->
+                                <path d="M 390 110 Q 420 130 480 130 L 480 130 L 390 130 Z" fill="#fecdd3"/>
+
+                                <!-- Curve Line -->
+                                <path d="M 20 130 Q 120 130 180 50 Q 250 10 320 50 Q 380 130 480 130" stroke="#0f766e" stroke-width="3" fill="none"/>
+
+                                <!-- Axis and Markers -->
+                                <line x1="20" y1="130" x2="480" y2="130" stroke="#475569" stroke-width="2"/>
+                                <line x1="250" y1="10" x2="250" y2="130" stroke="#0f766e" stroke-width="2" stroke-dasharray="4"/>
+
+                                <text x="250" y="145" text-anchor="middle" font-size="10" font-weight="bold" fill="#0f766e">Mean (Z = 0)</text>
+                                <text x="180" y="145" text-anchor="middle" font-size="9" fill="#15803d">Z = -2.0</text>
+                                <text x="320" y="145" text-anchor="middle" font-size="9" fill="#15803d">Z = +2.0</text>
+                                <text x="110" y="145" text-anchor="middle" font-size="9" fill="#b45309">-3.0</text>
+                                <text x="390" y="145" text-anchor="middle" font-size="9" fill="#b45309">+3.0</text>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Z-Score Formula & Interpretation Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-teal-50/80 p-4 rounded-xl border border-teal-200 space-y-2">
+                            <h3 class="font-bold text-teal-900 text-sm">สูตรการคำนวณ Z-Score (ISO/IEC 17043)</h3>
+                            <div class="text-sm font-mono bg-white p-3 rounded-lg border border-teal-200 text-center font-bold text-teal-800">
+                                Z = (X - Xpt) / SDpt
+                            </div>
+                            <ul class="text-xs text-slate-700 space-y-1 pl-2">
+                                <li>• <strong>X:</strong> ผลการตรวจวิเคราะห์ของห้องปฏิบัติการผู้สมัคร</li>
+                                <li>• <strong>Xpt:</strong> ค่าเป้าหมายอ้างอิง (Assigned Value)</li>
+                                <li>• <strong>SDpt:</strong> ส่วนเบี่ยงเบนมาตรฐานของการทดสอบ</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-2">
+                            <h3 class="font-bold text-slate-800 text-sm">เกณฑ์การแปลผลการทดสอบ PT</h3>
+                            <div class="space-y-1.5 text-xs">
+                                <div class="p-2 bg-emerald-50 rounded border border-emerald-200 flex justify-between text-emerald-900">
+                                    <span>|Z| ≤ 2.0</span>
+                                    <span class="font-bold">Satisfactory (น่าพอใจ / ผ่าน)</span>
+                                </div>
+                                <div class="p-2 bg-amber-50 rounded border border-amber-200 flex justify-between text-amber-900">
+                                    <span>2.0 < |Z| < 3.0</span>
+                                    <span class="font-bold">Questionable (เฝ้าระวัง / เตือน)</span>
+                                </div>
+                                <div class="p-2 bg-rose-50 rounded border border-rose-200 flex justify-between text-rose-900">
+                                    <span>|Z| ≥ 3.0</span>
+                                    <span class="font-bold">Unsatisfactory (ไม่ผ่าน / แก้ไขด่วน)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 8: INTERACTIVE SIMULATORS -->
+            <section id="tab-simulators" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center space-x-3 border-b border-slate-100 pb-4">
+                        <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-800">เครื่องมือจำลองสถานการณ์ (Interactive Lab Simulators)</h2>
+                            <p class="text-xs text-slate-500">ทดลองคำนวณและประเมินผลการตรวจจริงสำหรับนักศึกษา</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Simulator 1: NAT2 Dose Advisor -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                                <i class="fa-solid fa-calculator text-indigo-600"></i>
+                                <span>1. จำลองการแปลผล NAT2 & แนะนำยารักษาวัณโรค</span>
+                            </h3>
+
+                            <div class="space-y-2 text-xs">
+                                <label class="block font-medium text-slate-700">เลือก Diplotype สายพันธุกรรม NAT2:</label>
+                                <select id="nat2Select" onchange="runNat2Simulator()" class="w-full p-2.5 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-indigo-500">
+                                    <option value="rapid">*4/*4 (Wild type - Rapid)</option>
+                                    <option value="rapid">*4/*12 (Rapid)</option>
+                                    <option value="intermediate">*4/*5 (Intermediate)</option>
+                                    <option value="intermediate">*4/*6 (Intermediate)</option>
+                                    <option value="slow">*5/*5 (Slow)</option>
+                                    <option value="slow">*6/*6 (Slow)</option>
+                                    <option value="slow">*6/*7 (Slow)</option>
+                                </select>
+                            </div>
+
+                            <div id="nat2ResultBox" class="p-4 rounded-xl border bg-white space-y-2 text-xs">
+                                <!-- Dynamic Output -->
+                            </div>
+                        </div>
+
+                        <!-- Simulator 2: PT Z-Score Calculator -->
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+                            <h3 class="font-bold text-slate-800 text-sm flex items-center space-x-2">
+                                <i class="fa-solid fa-square-root-variable text-teal-600"></i>
+                                <span>2. คำนวณประเมินผล PT (Z-Score Calculator)</span>
+                            </h3>
+
+                            <div class="grid grid-cols-3 gap-2 text-xs">
+                                <div>
+                                    <label class="block font-medium text-slate-700 mb-1">ผลของ Lab (X):</label>
+                                    <input type="number" id="ptValueX" value="108" oninput="runPtCalculator()" class="w-full p-2 rounded-lg border border-slate-300 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-slate-700 mb-1">ค่าอ้างอิง (Xpt):</label>
+                                    <input type="number" id="ptValueXpt" value="100" oninput="runPtCalculator()" class="w-full p-2 rounded-lg border border-slate-300 bg-white">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-slate-700 mb-1">เบี่ยงเบน (SD):</label>
+                                    <input type="number" id="ptValueSD" value="3.5" oninput="runPtCalculator()" class="w-full p-2 rounded-lg border border-slate-300 bg-white">
+                                </div>
+                            </div>
+
+                            <div id="ptResultBox" class="p-4 rounded-xl border bg-white space-y-2 text-xs">
+                                <!-- Dynamic Output -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 9: QUIZ & KNOWLEDGE CHECK -->
+            <section id="tab-quiz" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-clipboard-question"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold text-slate-800">แบบทดสอบวัดความรู้ความเข้าใจ</h2>
+                                <p class="text-xs text-slate-500">ประเมินผลหลังการเรียนรู้และการเยี่ยมชม</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs text-slate-400 block">คะแนนสะสม</span>
+                            <span id="quizScore" class="text-xl font-bold text-orange-600">0 / 5</span>
+                        </div>
+                    </div>
+
+                    <form id="quizForm" class="space-y-6 text-sm">
+                        <!-- Q1 -->
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                            <p class="font-semibold text-slate-800">1. ผู้ป่วยที่มีผลตรวจ NAT2 เป็นชนิด Slow Acetylator มีความเสี่ยงใดหากได้รับยา Isoniazid ขนาดยาปกติ?</p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center space-x-2"><input type="radio" name="q1" value="a"> <span>ก. เกิดภาวะตับอักเสบจากยาเนื่องจากยาสะสมในร่างกายสูง</span></label>
+                                <label class="flex items-center space-x-2"><input type="radio" name="q1" value="b"> <span>ข. การรักษาล้มเหลวเพราะยาถูกกำจัดเร็วเกินไป</span></label>
+                                <label class="flex items-center space-x-2"><input type="radio" name="q1" value="c"> <span>ค. เกิดผื่นแพ้ยารุนแรง SJS/TEN</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                            <p class="font-semibold text-slate-800">2. การตรวจแพ้ยาก่อนเริ่มยา Allopurinol (ยาลดกรดยูริก) ควรตรวจยีนใดเพื่อป้องกันผื่นแพ้ยารุนแรง SJS/TEN?</p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center space-x-2"><input type="radio" name="q2" value="a"> <span>ก. HLA-B*57:01</span></label>
+                                <label class="flex items-center space-x-2"><input type="radio" name="q2" value="b"> <span>ข. HLA-B*58:01</span></label>
+                                <label class="flex items-center space-x-2"><input type="radio" name="q2" value="c"> <span>ค. HLA-B*15:02</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                            <p class="font-semibold text-slate-800">3. ข้อใดอธิบายความแตกต่างระหว่าง Biosafety และ Biosecurity ได้ถูกต้องที่สุด?</p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center space-x-2"><input type="radio" name="q3" value="a"> <span>ก. Biosafety ปกป้องคนจากเชื้อโรค / Biosecurity ปกป้องเชื้อโรคจากการถูกขโมยหรือนำไปใช้ผิดวัตถุประสงค์</span></label>
+                                <label class="flex items-center space-x-2"><input type="radio" name="q3" value="b"> <span>ข. Biosafety เน้นการดับเพลิง / Biosecurity เน้นเรื่องสารเคมี</span></label>
+                                <label class="flex items-center space-x-2"><input type="radio" name="q3" value="c"> <span>ค. ทั้งสองคำมีความหมายเดียวกัน</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Q4 -->
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                            <p class="font-semibold text-slate-800">4. ผลการทดสอบความชำนาญ (PT) มีค่า Z-Score เท่ากับ +1.5 แปลผลได้อย่างไร?</p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center space-x-2"><input type="radio" name="q4" value="a"> <span>ก. Unsatisfactory (ไม่ผ่านเกณฑ์)</span></label>
+                                <label class="flex items-center space-x-2"><input type="radio" name="q4" value="b"> <span>ข. Questionable (เตือน/เฝ้าระวัง)</span></label>
+                                <label class="flex items-center space-x-2"><input type="radio" name="q4" value="c"> <span>ค. Satisfactory (ผ่านเกณฑ์/น่าพอใจ)</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Q5 -->
+                        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                            <p class="font-semibold text-slate-800">5. การตรวจคัดกรอง HPV DNA Test ครอบคลุมเชื้อ HPV กลุ่มความเสี่ยงสูงกี่สายพันธุ์?</p>
+                            <div class="space-y-1.5 text-xs text-slate-700">
+                                <label class="flex items-center space-x-2"><input type="radio" name="q5" value="a"> <span>ก. 2 สายพันธุ์</span></label>
+                                <label class="flex items-center space-x-2"><input type="radio" name="q5" value="b"> <span>ข. 14 สายพันธุ์เสี่ยงสูง</span></label>
+                                <label class="flex items-center space-x-2"><input type="radio" name="q5" value="c"> <span>ค. 28 สายพันธุ์</span></label>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="checkQuiz()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition shadow">
+                            ส่งแบบทดสอบ & ประมวลผลคะแนน
+                        </button>
+                    </form>
+
+                    <div id="quizFeedback" class="hidden p-4 rounded-xl bg-sky-50 border border-sky-200 text-xs space-y-2">
+                        <!-- Dynamic Feedback Output -->
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p>© 2026 ศูนย์วิทยาศาสตร์การแพทย์ที่ 4 สระบุรี กรมวิทยาศาสตร์การแพทย์ กระทรวงสาธารณสุข</p>
+            <p class="text-slate-500">424 หมู่ 9 ต.มิตรภาพ อ.มวกเหล็ก จ.สระบุรี 18180 | โทรศัพท์ 036-298-274-5</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function checkPpeAndRoom(level) {
+            document.querySelectorAll('.ppe-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'bg-indigo-600', 'bg-amber-600', 'bg-rose-600', 'bg-emerald-600', 'text-white', 'active');
+                btn.classList.add('bg-white', 'text-slate-700');
+            });
+
+            const activeBtn = document.getElementById('ppebtn-' + level);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-slate-700');
+                activeBtn.classList.add('text-white', 'active');
+                if (level === 'bsl1') activeBtn.classList.add('bg-emerald-600');
+                if (level === 'bsl2') activeBtn.classList.add('bg-sky-600');
+                if (level === 'bsl2plus') activeBtn.classList.add('bg-indigo-600');
+                if (level === 'bsl3') activeBtn.classList.add('bg-amber-600');
+                if (level === 'bsl4') activeBtn.classList.add('bg-rose-600');
+            }
+
+            const out = document.getElementById('ppeRoomOutput');
+            if (!out) return;
+
+            if (level === 'bsl1') {
+                out.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-xl flex items-center justify-between">
+                            <div>
+                                <span class="bg-emerald-600 text-white font-bold text-[10px] px-2.5 py-1 rounded-full uppercase">BSL-1: Basic Safety Level</span>
+                                <h4 class="font-bold text-slate-800 text-sm mt-1">ห้องปฏิบัติการพื้นฐาน (เชื้อที่ไม่ก่อโรคในมนุษย์ผู้มีภูมิคุ้มกันปกติ)</h4>
+                            </div>
+                            <span class="text-xs font-bold text-emerald-800 bg-emerald-200/70 px-3 py-1 rounded-lg">Risk Group 1</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Section 1: Pathogens -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-emerald-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-bug text-emerald-600"></i>
+                                    <span>1. ชนิดของเชื้อก่อโรค (Pathogens & Agents)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• <strong>แบคทีเรีย:</strong> <i>Escherichia coli</i> สายพันธุ์ K-12, <i>Bacillus subtilis</i>, <i>Micrococcus luteus</i></li>
+                                    <li>• <strong>ยีสต์/รา:</strong> <i>Saccharomyces cerevisiae</i> (ขนมปัง/เบียร์)</li>
+                                    <li>• <strong>ลักษณะความเสี่ยง:</strong> ไม่ก่อโรคในผู้ใหญ่สุขภาพปกติ ความเสี่ยงต่อบุคคลและชุมชนต่ำมาก</li>
+                                </ul>
+                            </div>
+
+                            <!-- Section 2: PPE -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-emerald-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-shirt text-emerald-600"></i>
+                                    <span>2. อุปกรณ์ PPE แบบเจาะลึก (Head-to-Toe)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• 🥼 <strong>เสื้อกาวน์:</strong> เสื้อกาวน์ตัวสั้นหรือยาวกระดุมหน้าผ้าฝ้าย/โพลีเอสเตอร์</li>
+                                    <li>• 🧤 <strong>ถุงมือ:</strong> ถุงมือยาง Disposable Latex/Nitrile 1 ชั้น (ใส่เมื่อจับสารเคมี/เชื้อ)</li>
+                                    <li>• 🥽 <strong>ดวงตา:</strong> แว่นตานิรภัย (Safety Glasses) เมื่อเสี่ยงสารกระเด็น</li>
+                                    <li>• 👟 <strong>เท้า:</strong> รองเท้าหุ้มส้นปิดมิดชิด ห้ามสวมรองเท้าแตะเปิดปลายเท้า</li>
+                                </ul>
+                            </div>
+
+                            <!-- Section 3: Facility Specs -->
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-emerald-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-building text-emerald-600"></i>
+                                    <span>3. ลักษณะโครงสร้างห้อง (Facility Specs)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• 💨 <strong>แรงดันอากาศ:</strong> แรงดันบรรยากาศปกติ Ambient (+0 Pa)</li>
+                                    <li>• 🌀 <strong>ระบบลม:</strong> ระบายอากาศทั่วไป (General HVAC) อัตราหมุนเวียน 6-8 ACH</li>
+                                    <li>• 🧼 <strong>สุขอนามัย:</strong> มีอ่างล้างมือพร้อมสบู่และกระดาษเช็ดมือใกล้นกประตูออก</li>
+                                    <li>• 🪑 <strong>พื้นผิว:</strong> โต๊ะทำด้วยวัสดุทนน้ำ ทนความร้อน สารเคมีล้างทำความสะอาดง่าย</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (level === 'bsl2') {
+                out.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="bg-sky-50 border border-sky-200 p-3.5 rounded-xl flex items-center justify-between">
+                            <div>
+                                <span class="bg-sky-600 text-white font-bold text-[10px] px-2.5 py-1 rounded-full uppercase">BSL-2: Clinical Diagnostic Level</span>
+                                <h4 class="font-bold text-slate-800 text-sm mt-1">ห้องปฏิบัติการพยาธิวิทยาคลินิก / ชันสูตรทั่วไป (ศูนย์ฯ 4 สระบุรี)</h4>
+                            </div>
+                            <span class="text-xs font-bold text-sky-800 bg-sky-200/70 px-3 py-1 rounded-lg">Risk Group 2</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-sky-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-virus text-sky-600"></i>
+                                    <span>1. ชนิดของเชื้อก่อโรค (Pathogens & Agents)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• <strong>ไวรัสทางเลือด:</strong> Hepatitis B (HBV), Hepatitis C (HCV), HIV-1/2</li>
+                                    <li>• <strong>ไวรัสอื่นๆ:</strong> Dengue virus, Human Papillomavirus (HPV), Influenza A/B</li>
+                                    <li>• <strong>แบคทีเรีย:</strong> <i>Staphylococcus aureus</i> (MRSA), <i>Salmonella</i> spp., <i>Vibrio cholerae</i></li>
+                                    <li>• <strong>ลักษณะความเสี่ยง:</strong> ก่อโรครุนแรงปานกลาง มีวัคซีนป้องกันและยารักษาชะงัด</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-sky-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-user-nurse text-sky-600"></i>
+                                    <span>2. อุปกรณ์ PPE แบบเจาะลึก (Head-to-Toe)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• 🥼 <strong>เสื้อกาวน์:</strong> เสื้อกาวน์กันน้ำ (Fluid-resistant Gown) แขนยาวมีจั๊มปลายแขน</li>
+                                    <li>• 🧤 <strong>ถุงมือ:</strong> ถุงมือ Nitrile 2 ชั้น (Double Gloves) สวมทับปลายแขนกาวน์</li>
+                                    <li>• 😷 <strong>หน้ากาก & ตา:</strong> Surgical Mask + Face Shield กันเลือด/ซีรัมกระเด็น</li>
+                                    <li>• 👟 <strong>เท้า:</strong> รองเท้าหุ้มส้นพื้นกันลื่น ทนทานต่อสารเคมีล้างห้องLab</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-sky-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-hospital-user text-sky-600"></i>
+                                    <span>3. ลักษณะโครงสร้างห้อง (Facility Specs)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• 💨 <strong>แรงดันอากาศ:</strong> แรงดันปกติ หรือ แรงดันลบอ่อนๆ (-5 Pa)</li>
+                                    <li>• 🛡️ <strong>ตู้ชีวภาพ:</strong> ติดตั้ง Biosafety Cabinet Class II Type A2/B2 สำหรับเปิดหลอดเลือด</li>
+                                    <li>• 🔒 <strong>ควบคุมการเข้าออก:</strong> ติดป้ายสัญลักษณ์ Biohazard จำกัดเฉพาะผู้มีหน้าที่</li>
+                                    <li>• ☣️ <strong>กำจัดขยะ:</strong> มีถุงขยะติดเชื้อสีแดง และหม้อนึ่งอัดพฤกษ์ Autoclave ประจำศูนย์ฯ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (level === 'bsl2plus') {
+                out.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="bg-indigo-50 border border-indigo-200 p-3.5 rounded-xl flex items-center justify-between">
+                            <div>
+                                <span class="bg-indigo-600 text-white font-bold text-[10px] px-2.5 py-1 rounded-full uppercase">BSL-2+ (Enhanced BSL-2)</span>
+                                <h4 class="font-bold text-slate-800 text-sm mt-1">ห้องปฏิบัติการสกัดอณูชีววิทยา / HPV DNA & Molecular Extraction</h4>
+                            </div>
+                            <span class="text-xs font-bold text-indigo-800 bg-indigo-200/70 px-3 py-1 rounded-lg">Enhanced Risk RG-2</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-indigo-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-dna text-indigo-600"></i>
+                                    <span>1. ชนิดของเชื้อก่อโรค (Pathogens & Agents)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• <strong>สิ่งส่งตรวจเสี่ยงละอองฝอย:</strong> ตัวอย่างสวอปคอ/ช่องคลอด สกัด HPV DNA High-Risk</li>
+                                    <li>• <strong>เชื้อไวรัสสกัดสารพันธุกรรม:</strong> SARS-CoV-2 (Molecular Extraction Phase), Mpox virus, Chikungunya</li>
+                                    <li>• <strong>ลักษณะความเสี่ยง:</strong> เชื้อระดับ RG-2 แต่ทำปฏิกิริยาเกิด aerosol ละอองฝอยสูง</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-indigo-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-head-side-mask text-indigo-600"></i>
+                                    <span>2. อุปกรณ์ PPE แบบเจาะลึก (Head-to-Toe)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• 🥼 <strong>ชุดกาวน์:</strong> Isolation Gown ชนิดกันน้ำผูกหลังมิดชิด ไร้รอยเปิดด้านหน้า</li>
+                                    <li>• 😷 <strong>หน้ากาก:</strong> หน้ากาก N95 / KN95 (ผ่านการตรวจ Fit Test กระชับใบหน้า)</li>
+                                    <li>• 🧤 <strong>ถุงมือ & ศีรษะ:</strong> ถุงมือ Nitrile 2 ชั้นยาวข้ามข้อมือ + หมวกคลุมผม Bouffant Cap</li>
+                                    <li>• 👟 <strong>เท้า:</strong> ถุงคลุมรองเท้ากันน้ำ (Shoe Covers) แบบใช้ครั้งเดียวทิ้ง</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-indigo-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-fan text-indigo-600"></i>
+                                    <span>3. ลักษณะโครงสร้างห้อง (Facility Specs)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• 📉 <strong>แรงดันอากาศ:</strong> แรงดันลบอ่อนๆ (-10 ถึง -15 Pa) ป้องกันลมรั่วออกทางเดิน</li>
+                                    <li>• 🚪 <strong>ห้องกั้น Anteroom:</strong> มีห้องเปลี่ยนชุด PPE 1 ชั้น คุมระบบอากาศแยกโซน</li>
+                                    <li>• 🌬️ <strong>HEPA Filtration:</strong> อากาศขจัดออกผ่าน HEPA Filter Exhaust 99.97%</li>
+                                    <li>• 🧹 <strong>พื้นผิว Seamless:</strong> พื้นไวนิลเชื่อมหล่อไร้รอยต่อ ลบมุมผนัง Coved Skirting</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (level === 'bsl3') {
+                out.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-xl flex items-center justify-between">
+                            <div>
+                                <span class="bg-amber-600 text-white font-bold text-[10px] px-2.5 py-1 rounded-full uppercase">BSL-3: High Containment Level</span>
+                                <h4 class="font-bold text-slate-800 text-sm mt-1">ห้องปฏิบัติการเชื้อติดเชื้อทางอากาศอันตราย (เช่น วัณโรค TB / COVID-19 Culture)</h4>
+                            </div>
+                            <span class="text-xs font-bold text-amber-800 bg-amber-200/70 px-3 py-1 rounded-lg">Risk Group 3</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-amber-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-mask-ventilator text-amber-600"></i>
+                                    <span>1. ชนิดของเชื้อก่อโรค (Pathogens & Agents)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• <strong>แบคทีเรียวัณโรค:</strong> <i>Mycobacterium tuberculosis</i> (TB, MDR-TB, XDR-TB)</li>
+                                    <li>• <strong>ไวรัสทางอากาศ:</strong> SARS-CoV-2 (Live virus propagation), SARS-CoV-1, MERS-CoV</li>
+                                    <li>• <strong>เชื้ออันตรายอื่นๆ:</strong> <i>Bacillus anthracis</i> (Anthrax), <i>Brucella</i> spp., Rabies virus</li>
+                                    <li>• <strong>ลักษณะความเสี่ยง:</strong> แพร่กระจายทางอากาศ (Aerosol) ถึงแก่ชีวิตได้ แต่ยังมียารักษา/วัคซีน</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-amber-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-vest-patches text-amber-600"></i>
+                                    <span>2. อุปกรณ์ PPE แบบเจาะลึก (Head-to-Toe)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• 🥼 <strong>ชุดคลุม:</strong> ชุด Coverall / Tyvek Suit ป้องกันตั้งแต่หัวจดเท้า 100%</li>
+                                    <li>• 🪖 <strong>ระบบหายใจ:</strong> พัดลมกรองอากาศ PAPR (Powered Air-Purifying Respirator) หรือ N95+Goggles ซีลสนิท</li>
+                                    <li>• 🧤 <strong>ถุงมือ:</strong> ถุงมือ Nitrile ยาวครอบแขน 2-3 ชั้น</li>
+                                    <li>• 🥾 <strong>เท้า:</strong> รองเท้าบู้ทยางนิรภัย + ถุงคลุมบู้ทกันน้ำ</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-amber-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-vault text-amber-600"></i>
+                                    <span>3. ลักษณะโครงสร้างห้อง (Facility Specs)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• 📉 <strong>แรงดันลบเข้มงวด:</strong> Negative Pressure (-30 ถึง -50 Pa) ลมพุ่งเข้าในห้องเท่านั้น</li>
+                                    <li>• 🚪 <strong>Anteroom 2 ชั้น:</strong> มีระบบประตู Interlock ล็อคคู่อัตโนมัติ ป้องกันลมย้อน</li>
+                                    <li>• 🔄 <strong>อัตราหมุนเวียน:</strong> > 12-15 Air Changes per Hour (ACH) ลมปล่อยผ่าน HEPA Filter 100%</li>
+                                    <li>• 🧹 <strong>Double-Door Autoclave:</strong> หม้อนึ่งอัดพฤกษ์สอดทะลุผนัง ฆ่าเชื้อขยะก่อนออกนอกห้อง</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (level === 'bsl4') {
+                out.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="bg-rose-50 border border-rose-200 p-3.5 rounded-xl flex items-center justify-between">
+                            <div>
+                                <span class="bg-rose-600 text-white font-bold text-[10px] px-2.5 py-1 rounded-full uppercase">BSL-4: Maximum Containment Level</span>
+                                <h4 class="font-bold text-slate-800 text-sm mt-1">ห้องปฏิบัติการอันตรายสูงสุด (เชื้ออุบัติใหม่ร้ายแรงที่มักไม่มียารักษาหรือวัคซีน)</h4>
+                            </div>
+                            <span class="text-xs font-bold text-rose-800 bg-rose-200/70 px-3 py-1 rounded-lg">Risk Group 4</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-rose-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-skull-crossbones text-rose-600"></i>
+                                    <span>1. ชนิดของเชื้อก่อโรค (Pathogens & Agents)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• <strong>ไวรัสไข้เลือดออกร้ายแรง:</strong> Ebola virus, Marburg virus, Lassa fever virus</li>
+                                    <li>• <strong>ไวรัสอันตรายสายพันธุ์ต่างแดน:</strong> Crimean-Congo hemorrhagic fever, Nipah virus, Hendra virus</li>
+                                    <li>• <strong>ลักษณะความเสี่ยง:</strong> อัตราป่วยตายสูงมาก (up to 90%) ติดต่อง่าย ละอองฝอย ไร้ยารักษา/วัคซีน</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-rose-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-space-shuttle text-rose-600"></i>
+                                    <span>2. อุปกรณ์ PPE แบบเจาะลึก (Head-to-Toe)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• 🧑‍🚀 <strong>ชุดแรงดันบวก:</strong> Positive Pressure Suit (Space Suit) คุ้มกันสารเคมีและเชื้อ 100%</li>
+                                    <li>• 🌬️ <strong>ระบบอากาศ:</strong> ท่อส่งอากาศบริสุทธิ์สายตรง (Life-Support Air Line) จากภายนอกห้อง</li>
+                                    <li>• 🧤 <strong>ถุงมือ & บู้ท:</strong> ถุงมือยางหนาพิเศษยึดติดกับชุดแบบสูญญากาศไร้รอยต่อ</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2">
+                                <div class="font-bold text-rose-800 text-xs flex items-center space-x-1.5 border-b pb-1.5 border-slate-200">
+                                    <i class="fa-solid fa-building-shield text-rose-600"></i>
+                                    <span>3. ลักษณะโครงสร้างห้อง (Facility Specs)</span>
+                                </div>
+                                <ul class="space-y-1 text-slate-700 text-[11px]">
+                                    <li>• 🏛️ <strong>อาคารแยกอิสระ:</strong> Sealed Zone แยกจากอาคารทั่วไปเด็ดขาด</li>
+                                    <li>• 🚿 <strong>Chemical Decontamination Shower:</strong> อาบน้ำยาฆ่าเชื้อเคมีก่อนถอดชุดออกจากห้อง</li>
+                                    <li>• 💨 <strong>Double HEPA Exhaust:</strong> ระบบกรอง HEPA 2 ชั้นต่อกันแบบอนุกรม</li>
+                                    <li>• 💧 <strong>EDS Liquid Waste Treatment:</strong> ต้มฆ่าเชื้อน้ำเสียทั้งหมดด้วยความร้อนสูงก่อนปล่อยลงท่อ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            const targetTab = document.getElementById('tab-' + tabId);
+            if (targetTab) targetTab.classList.remove('hidden');
+
+            const targetBtn = document.getElementById('btn-' + tabId);
+            if (targetBtn) targetBtn.classList.add('active');
+
+            if (tabId === 'biosafety' && !window.bslExplorerRendered) {
+                checkPpeAndRoom('bsl2');
+                window.bslExplorerRendered = true;
+            }
+
+            if (tabId === 'nat2' && !window.nat2ChartRendered) {
+                renderNat2Chart();
+                window.nat2ChartRendered = true;
+            }
+
+            if (tabId === 'pcr-hpv' && !window.pcrChartRendered) {
+                renderPcrChart();
+                window.pcrChartRendered = true;
+            }
+        }
+
+        function showWorkflowStep(stepKey) {
+            document.querySelectorAll('.wf-sec').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.wf-tab').forEach(el => {
+                el.classList.remove('bg-sky-600', 'bg-indigo-600', 'bg-emerald-600', 'text-white', 'active');
+                el.classList.add('bg-slate-100', 'text-slate-600');
+            });
+
+            const activeSec = document.getElementById('wf-sec-' + stepKey);
+            if (activeSec) activeSec.classList.remove('hidden');
+
+            const activeBtn = document.getElementById('wbtn-' + stepKey);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+                activeBtn.classList.add('text-white', 'active');
+                if (stepKey === 'pre') activeBtn.classList.add('bg-sky-600');
+                if (stepKey === 'ana') activeBtn.classList.add('bg-indigo-600');
+                if (stepKey === 'post') activeBtn.classList.add('bg-emerald-600');
+            }
+        }
+
+        function checkSpecimenStatus(statusType) {
+            const out = document.getElementById('rejectionOutput');
+            if (statusType === 'clot') {
+                out.className = "p-3.5 bg-rose-50 border border-rose-300 text-rose-900 rounded-xl text-xs space-y-1";
+                out.innerHTML = `
+                    <div class="font-bold text-rose-800">❌ ปฏิเสธสิ่งส่งตรวจ (Reject Specimen)</div>
+                    <p><strong>สาเหตุ:</strong> เลือดเกิดลิ่ม (Clotted) ทำให้โปรตีนและ DNA เสียสภาพ ไม่สามารถดูดปั่นแยกพลาสมาหรือสกัด DNA ได้แม่นยำ</p>
+                    <p class="font-semibold text-rose-950">➡️ Action: แจ้ง รพ. เครือข่ายให้เจาะเก็บตัวอย่างใหม่ (Recollect)</p>
+                `;
+            } else if (statusType === 'hemo') {
+                out.className = "p-3.5 bg-amber-50 border border-amber-300 text-amber-900 rounded-xl text-xs space-y-1";
+                out.innerHTML = `
+                    <div class="font-bold text-amber-800">⚠️ ปฏิเสธการตรวจบางรายการ / เฝ้าระวัง</div>
+                    <p><strong>สาเหตุ:</strong> เม็ดเลือดแดงแตก (Hemolyzed) สาร Hemoglobin รบกวนปฏิกิริยา PCR (PCR Inhibitor)</p>
+                    <p class="font-semibold text-amber-950">➡️ Action: ประเมินระดับการแตกตัวของเม็ดเลือด หากรุนแรงให้ขอเก็บตัวอย่างใหม่</p>
+                `;
+            } else if (statusType === 'wrong_vol') {
+                out.className = "p-3.5 bg-rose-50 border border-rose-300 text-rose-900 rounded-xl text-xs space-y-1";
+                out.innerHTML = `
+                    <div class="font-bold text-rose-800">❌ ปฏิเสธสิ่งส่งตรวจ (Reject Specimen)</div>
+                    <p><strong>สาเหตุ:</strong> ปริมาณเลือดน้อยกว่าขีดกำหนด ทำให้สัดส่วนสารกันเลือดแข็งตัว (EDTA) เข้มข้นเกินไป รบกวนปฏิกิริยา</p>
+                    <p class="font-semibold text-rose-950">➡️ Action: ปฏิเสธตามเกณฑ์มาตรฐาน และแจ้งขอเก็บตัวอย่างใหม่</p>
+                `;
+            } else {
+                out.className = "p-3.5 bg-emerald-50 border border-emerald-300 text-emerald-900 rounded-xl text-xs space-y-1";
+                out.innerHTML = `
+                    <div class="font-bold text-emerald-800">✅ รับสิ่งส่งตรวจเข้าสู่กระบวนการ (Accepted Specimen)</div>
+                    <p><strong>สภาพ:</strong> ปริมาณสมบูรณ์ เลือดไม่เกิดลิ่ม บาร์โค้ดชัดเจน ตรงตาม Requisition Form 100%</p>
+                    <p class="font-semibold text-emerald-950">➡️ Action: ลงทะเบียนรับในระบบ LIS และส่งต่อปั่นแยกสกัด DNA ทันที</p>
+                `;
+            }
+        }
+
+        function renderNat2Chart() {
+            const ctx = document.getElementById('nat2Chart');
+            if (!ctx) return;
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Rapid Acetylator (ย่อยเร็ว 45.3%)', 'Slow Acetylator (ย่อยช้า 42.0%)', 'Intermediate (ปานกลาง 12.7%)'],
+                    datasets: [{
+                        data: [45.3, 42.0, 12.7],
+                        backgroundColor: ['#10b981', '#f43f5e', '#f59e0b'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Sarabun', size: 11 } } }
+                    }
+                }
+            });
+        }
+
+        function renderPcrChart() {
+            const ctx = document.getElementById('pcrCurveChart');
+            if (!ctx) return;
+
+            const labels = Array.from({length: 40}, (_, i) => i + 1);
+            
+            // Sigmoidal amplification curve
+            const samplePositive = labels.map(c => c < 18 ? 0.05 : (1 / (1 + Math.exp(-(c - 24)))) * 10);
+            const internalControl = labels.map(c => c < 14 ? 0.05 : (1 / (1 + Math.exp(-(c - 20)))) * 10);
+            const threshold = Array(40).fill(1.5);
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'HPV DNA Target (Ct = 24.2)',
+                            data: samplePositive,
+                            borderColor: '#a855f7',
+                            backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                            borderWidth: 2.5,
+                            tension: 0.3,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Internal Control (Ct = 20.1)',
+                            data: internalControl,
+                            borderColor: '#0EA5E9',
+                            borderWidth: 2,
+                            borderDash: [4, 4],
+                            tension: 0.3,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Threshold Line',
+                            data: threshold,
+                            borderColor: '#EF4444',
+                            borderWidth: 1.5,
+                            borderDash: [2, 2],
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'PCR Cycles', font: { size: 10 } } },
+                        y: { title: { display: true, text: 'Fluorescence (RFU)', font: { size: 10 } } }
+                    },
+                    plugins: {
+                        legend: { position: 'top', labels: { font: { family: 'Sarabun', size: 10 } } }
+                    }
+                }
+            });
+        }
+
+        function runNat2Simulator() {
+            const val = document.getElementById('nat2Select').value;
+            const box = document.getElementById('nat2ResultBox');
+            
+            if (val === 'rapid') {
+                box.className = "p-4 rounded-xl border border-emerald-200 bg-emerald-50 space-y-1.5 text-xs text-emerald-900";
+                box.innerHTML = `
+                    <div class="font-bold text-sm text-emerald-800">ฟีโนไทป์: Rapid Acetylator (ขจัดยาไว)</div>
+                    <p><strong>ผลกระทบทางคลินิก:</strong> ระดับยา Isoniazid ในเลือดลดลงอย่างรวดเร็ว ต่ำกว่าระดับความเข้มข้นยับยั้งเชื้อ</p>
+                    <p class="font-semibold text-emerald-950">💊 คำแนะนำการปรับยา: พิจารณาเพิ่มขนาดยา INH ขึ้นจากขนาดยาปกติ</p>
+                `;
+            } else if (val === 'intermediate') {
+                box.className = "p-4 rounded-xl border border-amber-200 bg-amber-50 space-y-1.5 text-xs text-amber-900";
+                box.innerHTML = `
+                    <div class="font-bold text-sm text-amber-800">ฟีโนไทป์: Intermediate Acetylator (ขจัดยาปานกลาง)</div>
+                    <p><strong>ผลกระทบทางคลินิก:</strong> อัตราการย่อยยาและระดับยาในเลือดอยู่ในเกณฑ์มาตรฐานการรักษา</p>
+                    <p class="font-semibold text-amber-950">💊 คำแนะนำการปรับยา: ให้ขนาดยาต้านวัณโรค INH มาตรฐานตามน้ำหนักตัว</p>
+                `;
+            } else {
+                box.className = "p-4 rounded-xl border border-rose-200 bg-rose-50 space-y-1.5 text-xs text-rose-900";
+                box.innerHTML = `
+                    <div class="font-bold text-sm text-rose-800">ฟีโนไทป์: Slow Acetylator (ขจัดยาช้า)</div>
+                    <p><strong>ผลกระทบทางคลินิก:</strong> ยาตกค้างในร่างกายสูง เสี่ยงภาวะตับอักเสบจากยา (Hepatotoxicity)</p>
+                    <p class="font-semibold text-rose-950">💊 คำแนะนำการปรับยา: พิจารณาลดขนาดยา INH ลง เพื่อความปลอดภัยต่อตับ</p>
+                `;
+            }
+        }
+
+        function runPtCalculator() {
+            const x = parseFloat(document.getElementById('ptValueX').value) || 0;
+            const xpt = parseFloat(document.getElementById('ptValueXpt').value) || 0;
+            const sd = parseFloat(document.getElementById('ptValueSD').value) || 1;
+
+            const z = (x - xpt) / sd;
+            const absZ = Math.abs(z);
+            const box = document.getElementById('ptResultBox');
+
+            let status = '';
+            let bgClass = '';
+
+            if (absZ <= 2.0) {
+                status = 'Satisfactory (ผ่านเกณฑ์ / ผลการตรวจดีน่าพอใจ)';
+                bgClass = 'border-emerald-200 bg-emerald-50 text-emerald-900';
+            } else if (absZ < 3.0) {
+                status = 'Questionable (เตือน / ควรเฝ้าระวังและตรวจสอบเครื่องมือ)';
+                bgClass = 'border-amber-200 bg-amber-50 text-amber-900';
+            } else {
+                status = 'Unsatisfactory (ไม่ผ่านเกณฑ์ / ต้องหาสาเหตุและแก้ไขทันที)';
+                bgClass = 'border-rose-200 bg-rose-50 text-rose-900';
+            }
+
+            box.className = `p-4 rounded-xl border space-y-1.5 text-xs ${bgClass}`;
+            box.innerHTML = `
+                <div class="font-bold text-sm">ค่า Z-Score คำนวณได้: ${z.toFixed(2)}</div>
+                <p><strong>สถานะประเมิน:</strong> ${status}</p>
+                <p class="text-[11px] opacity-80">สูตรการคำนวณ: Z = (${x} - ${xpt}) / ${sd} = ${z.toFixed(2)}</p>
+            `;
+        }
+
+        function checkQuiz() {
+            const answers = { q1: 'a', q2: 'b', q3: 'a', q4: 'c', q5: 'b' };
+            let score = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected && selected.value === answers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            document.getElementById('quizScore').innerText = `${score} / 5`;
+            const feedback = document.getElementById('quizFeedback');
+            feedback.classList.remove('hidden');
+
+            if (score === 5) {
+                feedback.className = "p-4 rounded-xl bg-emerald-50 border border-emerald-300 text-xs text-emerald-900 space-y-1";
+                feedback.innerHTML = `<span class="font-bold text-sm">🎉 เก่งมาก! คุณได้คะแนนเต็ม 5/5</span><p>คุณมีความรู้ความเข้าใจเกี่ยวกับงานพยาธิวิทยาคลินิกเป็นอย่างดี</p>`;
+            } else {
+                feedback.className = "p-4 rounded-xl bg-amber-50 border border-amber-300 text-xs text-amber-900 space-y-1";
+                feedback.innerHTML = `<span class="font-bold text-sm">👍 คะแนนที่ได้: ${score}/5</span><p>ลองทบทวนเนื้อหาในแผนภาพเรียนรู้แล้วทดสอบใหม่อีกครั้งครับ</p>`;
+            }
+        }
+
+        window.onload = function() {
+            checkPpeAndRoom('bsl2');
+            runNat2Simulator();
+            runPtCalculator();
+        };
+    </script>
+</body>
+</html>
